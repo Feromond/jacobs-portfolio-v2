@@ -1,0 +1,23 @@
+.contact-text {
+  line-height: 1.8;
+  max-width: 800px;
+  font-size: calc(18 / 16 * 1rem);
+  color: var(--color-light-gray);
+}
+
+.contact-text a,
+.contact-text:visited,
+.contact-text a::after {
+  color: var(--color-green);
+}
+
+.contact-text a:hover {
+  text-decoration: underline;
+}
+
+@media screen and (max-width: 745px) {
+  .contact-text {
+    line-height: 1.5;
+    font-size: 1rem;
+  }
+}

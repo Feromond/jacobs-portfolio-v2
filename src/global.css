@@ -1,0 +1,67 @@
+:root {
+  --color-white: #fff;
+  --color-green: #79fbce;
+  --color-sky-blue: #819bf7;
+  --color-obstian: #111111;
+  --color-light-gray: #adadad;
+  --color-dark-gray: #333333;
+  --color-navbar-border: rgba(74, 74, 74, 0.589);
+  --color-navbar-slider: rgba(79, 79, 79, 0.371);
+  --color-navbar-background: rgba(52, 52, 52, 0.589);
+  --color-navbar-shadow: 0 2px 5px rgba(0, 0, 0, 0.029);
+  --color-gradient-a: linear-gradient(-40deg, #ffd8b8, #fff4df);
+  --color-gradient-b: linear-gradient(-40deg, #b1e5f9, #f4d2fe);
+  --color-gradient-c: linear-gradient(-20deg, #ffdaef, #ffe9a6);
+  --color-gradient-d: linear-gradient(-20deg, #ffe9a6, #b6ffe5);
+  --color-gradient-e: linear-gradient(-40deg, #cab8ff, #ffe7f5);
+  --color-gradient-f: linear-gradient(90deg, #ffe7f5, #d5f3ff);
+  ---color-code-a: linear-gradient(90deg, #819bf7 0%, #4dffd5 100%);
+  ---color-code-b: linear-gradient(90deg, #ffe9a6 0%, #ff7373 100%);
+  ---color-code-c: linear-gradient(90deg, #f3a6ff 0%, #a3afff 100%);
+}
+
+* {
+  margin: 0;
+  margin: 0;
+  box-sizing: border-box;
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+}
+
+*::selection {
+  color: var(--color-obstian);
+  background-color: var(--color-sky-blue);
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+body {
+  width: 100%;
+  background: var(--color-obstian);
+  background-color: var(--color-obstian);
+}
+main {
+  margin: auto;
+  padding: 25px;
+  max-width: 75rem;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column;
+  gap: 150px;
+}
+
+@media screen and (max-width: 768px) {
+  main {
+    gap: 100px;
+  }
+}

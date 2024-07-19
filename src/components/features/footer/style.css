@@ -1,0 +1,8 @@
+.footer {
+  display: flex;
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  padding: 30px 0;
+  text-transform: capitalize;
+  color: var(--color-light-gray);
+}
