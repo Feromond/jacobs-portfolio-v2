@@ -1,6 +1,7 @@
 import React from 'react'
-import { Github, Link, projects } from '../../../library'
+import { Github, Link, projects, publications } from '../../../library'
 import { Headings } from '../../core/headings/headings'
+import Publication from '../publications/publications'
 import './style.css'
 
 const Projects = React.forwardRef<HTMLDivElement>((props, ref) => {
@@ -41,6 +42,12 @@ const Projects = React.forwardRef<HTMLDivElement>((props, ref) => {
               ))}
             </div>
           </a>
+        ))}
+      </div>
+      <Headings title="Publications" subtitle="Research and Articles" />
+      <div className="publications-grid">
+        {publications.map((publication, index) => (
+          <Publication key={index} {...publication} />
         ))}
       </div>
     </div>

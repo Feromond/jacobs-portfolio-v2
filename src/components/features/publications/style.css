@@ -1,0 +1,59 @@
+.publications-grid {
+  width: 100%;
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+  margin-bottom: 100px;
+}
+
+.publication-entry {
+  padding: 1rem;
+  border: 1px solid var(--color-light-gray);
+  transition: all 0.2s ease;
+  background-color: var(--color-obstian);
+  color: var(--color-light-gray);
+  border-bottom: 3px solid var(--color-green);
+}
+
+.publication-entry:hover {
+  border: 1px solid var(--color-white);
+  border-bottom: 3px solid var(--color-sky-blue);
+}
+
+.publication-entry a {
+  text-decoration: none;
+  color: var(--color-green);
+}
+
+.publication-entry h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.publication-entry .authors,
+.publication-entry .conference,
+.publication-entry .year,
+.publication-entry .additional {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--color-light-gray);
+}
+
+.publication-entry .pdf-link {
+  margin-top: 10px;
+  display: inline-block;
+  font-size: 1rem;
+  color: var(--color-sky-blue);
+}
+
+@media screen and (max-width: 1000px) {
+  .publications-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .publications-grid {
+    grid-template-columns: 1fr;
+  }
+}
