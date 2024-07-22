@@ -1,13 +1,16 @@
-.about {
-  display: flex;
-  position: relative;
-  align-items: center;
+.about-section {
+  padding: 20px;
 }
 
 .about-text {
   line-height: 1.8;
   font-size: calc(18 / 16 * 1rem);
   color: var(--color-light-gray);
+  margin-bottom: 20px;
+}
+
+.about-text p {
+  margin-bottom: 10px;
 }
 
 .about-link {
@@ -59,15 +62,24 @@
 }
 
 .download-button {
-  background-color: var(--color-sky-blue);
-  color: var(--color-white);
+  background: var(---color-code-a);
+  color: var(--color-obstian);
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
+  font-weight: 1000;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .download-button:hover {
-  background-color: #746aff;
+  transform: scale(1.05) translateY(-1px);
+  text-decoration: underline;
+}
+
+.experiences {
+  margin-top: 100px;
+  position: relative;
+  z-index: -1;
 }

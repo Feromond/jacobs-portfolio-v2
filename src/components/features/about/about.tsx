@@ -1,5 +1,7 @@
 import React from 'react'
 import { Headings } from '../../core/headings/headings'
+import Experience from '../experience/experience'
+import { experiences } from '../../../library'
 import './style.css'
 
 const About = React.forwardRef<HTMLDivElement>((props, ref) => {
@@ -53,6 +55,12 @@ const About = React.forwardRef<HTMLDivElement>((props, ref) => {
         <a href="src/library/Jacob_Mish_Resume.pdf" download>
           <button className="download-button">Download Resume</button>
         </a>
+      </div>
+      <div className="experiences">
+        <Headings title="Experiences" subtitle="" />{' '}
+        {experiences.map((exp, index) => (
+          <Experience key={index} {...exp} isAlternate={index % 2 !== 0} />
+        ))}
       </div>
     </div>
   )
