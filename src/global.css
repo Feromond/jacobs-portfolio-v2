@@ -18,6 +18,9 @@
   ---color-code-a: linear-gradient(90deg, #819bf7 0%, #4dffd5 100%);
   ---color-code-b: linear-gradient(90deg, #ffe9a6 0%, #ff7373 100%);
   ---color-code-c: linear-gradient(90deg, #f3a6ff 0%, #a3afff 100%);
+  ---color-code-d: linear-gradient(90deg, #edacff 0%, #8ad2ff 100%);
+  ---color-code-e: linear-gradient(90deg, #b1e5f9 0%, #f4d2fe 100%);
+  ---color-code-f: linear-gradient(90deg, #a3ffed 0%, #ff4d4d 100%);
 }
 
 * {
