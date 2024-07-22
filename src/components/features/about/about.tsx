@@ -57,7 +57,7 @@ const About = React.forwardRef<HTMLDivElement>((props, ref) => {
         </a>
       </div>
       <div className="experiences">
-        <Headings title="Experiences" subtitle="" />{' '}
+        <Headings title="Experiences" subtitle="My Past Experiences" />{' '}
         {experiences.map((exp, index) => (
           <Experience key={index} {...exp} isAlternate={index % 2 !== 0} />
         ))}
