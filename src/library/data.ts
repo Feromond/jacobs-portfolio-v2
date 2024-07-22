@@ -38,6 +38,40 @@ export const projects = [
   },
 ]
 
+export const publications = [
+  {
+    title:
+      'Distributed Acoustic Sensing and Machine Learning: Rockfall Detection at Mt. Meager, B.C.',
+    authors: 'Mish, J., Ferguson, R., Mosher, C.',
+    conference:
+      'NSG2023 29th European Meeting of Environmental and Engineering Geophysics, Sep 2023, Volume 2023, p.1 - 5',
+    year: 2023,
+    link: 'https://doi.org/10.3997/2214-4609.202320030',
+    additional: '',
+    pdf: 'src/library/mishFergusonMosher2023.pdf',
+  },
+  {
+    title:
+      'Distributed Acoustic Sensing of daylight on a glacier in Canada: Hotspot Monitoring',
+    authors: 'Ferguson, R., Mosher, C., Dettmer, J., & Mish, J.',
+    conference:
+      'NSG2021 27th European Meeting of Environmental and Engineering Geophysics',
+    year: 2021,
+    link: 'https://doi.org/10.3997/2214-4609.202120218',
+    additional: '',
+    pdf: 'src/library/ns2021FergEtAlDas.pdf',
+  },
+  {
+    title: 'Javaseis cloud: A cloud-native framework for seismic io.',
+    authors: 'Mosher, C. M., S. Sood, R. J. Ferguson, and Mish, J.',
+    conference: '2022 Rice Oil & Gas HPC Conference',
+    year: 2022,
+    link: 'https://www.youtube.com/watch?v=fhp6-SSGkXg',
+    additional: 'Video Recording, Houston, United States',
+    pdf: '',
+  },
+]
+
 export const socialLinks = [
   {
     name: 'GitHub',
