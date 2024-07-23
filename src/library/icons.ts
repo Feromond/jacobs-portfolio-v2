@@ -4,6 +4,12 @@ import { VscGithub as Github } from 'react-icons/vsc'
 import { RxExternalLink as Link } from 'react-icons/rx'
 import { MdOutlineHorizontalRule as Line } from 'react-icons/md'
 import { BsInstagram as Instagram } from 'react-icons/bs'
+import { IoCloudDownloadOutline as Download } from 'react-icons/io5'
+import {
+  IoIosArrowDown as Dropdown,
+  IoIosArrowUp as Collapse,
+} from 'react-icons/io'
+
 import {
   RiTwitterLine as Twitter,
   RiLinkedinFill as LinkedIn,
@@ -22,4 +28,7 @@ export {
   LinkedIn,
   Twitter,
   Blog,
+  Dropdown,
+  Collapse,
+  Download,
 }
