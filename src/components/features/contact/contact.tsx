@@ -15,7 +15,7 @@ const Contact = React.forwardRef<HTMLDivElement>((props, ref) => {
         >
           LinkedIn
         </a>{' '}
-        or via an{' '}
+        or an{' '}
         <a href="mailto:jacobpmish@gmail.com" target="_blank" rel="noreferrer">
           Email
         </a>
