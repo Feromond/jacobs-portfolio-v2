@@ -7,9 +7,15 @@ export const projects = [
   },
   {
     title: 'My Portfolio Website',
-    githubUrl: 'https://github.com/Feromond/jacob-mish-portfolio',
+    githubUrl: 'https://github.com/Feromond/jacobs-portfolio-v2',
     externalUrl: 'https://JacobMish.com',
     languages: ['React', 'TypeScript', 'CSS', 'Framer Motion'],
+  },
+  {
+    title: 'My Legacy Portfolio Website',
+    githubUrl: 'https://github.com/Feromond/jacob-mish-portfolio',
+    externalUrl: 'https://jacobmish-old.netlify.app',
+    languages: ['React', 'Javascript', 'Material UI'],
   },
   {
     title: 'Rust Snake Game',
@@ -30,12 +36,12 @@ export const projects = [
     externalUrl: '',
     languages: ['Python', 'Numpy', 'Signal Processing'],
   },
-  {
-    title: 'Fast Fourier Transform In Rust',
-    githubUrl: 'https://github.com/Feromond/fft_rust',
-    externalUrl: '',
-    languages: ['Rust', 'Python', 'Streamlit'],
-  },
+  // {
+  //   title: 'Fast Fourier Transform In Rust',
+  //   githubUrl: 'https://github.com/Feromond/fft_rust',
+  //   externalUrl: '',
+  //   languages: ['Rust', 'Python', 'Streamlit'],
+  // },
 ]
 
 export const publications = [
