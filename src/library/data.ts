@@ -1,3 +1,6 @@
+import mishFergusonMosher2023 from '../assets/mishFergusonMosher2023.pdf'
+import fergusonMosherDettmerMish2021 from '../assets/ns2021FergEtAlDas.pdf'
+
 export const projects = [
   {
     title: 'Machine Learning Pipeline',
@@ -54,7 +57,7 @@ export const publications = [
     year: 2023,
     link: 'https://doi.org/10.3997/2214-4609.202320030',
     additional: '',
-    pdf: 'src/assets/mishFergusonMosher2023.pdf',
+    pdf: mishFergusonMosher2023,
   },
   {
     title:
@@ -65,7 +68,7 @@ export const publications = [
     year: 2021,
     link: 'https://doi.org/10.3997/2214-4609.202120218',
     additional: '',
-    pdf: 'src/assets/ns2021FergEtAlDas.pdf',
+    pdf: fergusonMosherDettmerMish2021,
   },
   {
     title: 'Javaseis cloud: A cloud-native framework for seismic io.',
