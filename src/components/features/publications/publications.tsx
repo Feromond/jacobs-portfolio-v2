@@ -1,5 +1,6 @@
 import React from 'react'
 import './style.css'
+import { Download } from '../../../library'
 
 interface PublicationProps {
   title: string
@@ -30,8 +31,8 @@ const Publication: React.FC<PublicationProps> = ({
       <p className="year">{year}</p>
       {additional && <p className="additional">{additional}</p>}
       {pdf && (
-        <a href={pdf} download className="pdf-link">
-          Download PDF
+        <a href={pdf} download className="pdf-link" title="Download PDF">
+          <Download />
         </a>
       )}
     </div>
