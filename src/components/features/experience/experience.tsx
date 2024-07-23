@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './style.css'
+import { Collapse, Dropdown } from '../../../library'
 
 interface ExperienceProps {
   title: string
@@ -40,7 +41,9 @@ const Experience: React.FC<ExperienceProps> = ({
             ))}
           </ul>
         </div>
-        <div className="dropdown-indicator">{isExpanded ? '▲' : '▼'}</div>
+        <div className="dropdown-indicator">
+          {isExpanded ? <Collapse /> : <Dropdown />}
+        </div>
       </div>
       <div className="blob"></div>
     </div>
