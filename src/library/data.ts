@@ -54,7 +54,7 @@ export const publications = [
     year: 2023,
     link: 'https://doi.org/10.3997/2214-4609.202320030',
     additional: '',
-    pdf: 'src/library/mishFergusonMosher2023.pdf',
+    pdf: 'src/assets/mishFergusonMosher2023.pdf',
   },
   {
     title:
@@ -65,7 +65,7 @@ export const publications = [
     year: 2021,
     link: 'https://doi.org/10.3997/2214-4609.202120218',
     additional: '',
-    pdf: 'src/library/ns2021FergEtAlDas.pdf',
+    pdf: 'src/assets/ns2021FergEtAlDas.pdf',
   },
   {
     title: 'Javaseis cloud: A cloud-native framework for seismic io.',

@@ -52,7 +52,7 @@ const About = React.forwardRef<HTMLDivElement>((props, ref) => {
         </p>
       </p>
       <div className="resume-download">
-        <a href="src/library/Jacob_Mish_Resume.pdf" download>
+        <a href="src/assets/Jacob_Mish_Resume.pdf" download>
           <button className="download-button">Download Resume</button>
         </a>
       </div>
