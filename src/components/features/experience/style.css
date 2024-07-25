@@ -99,7 +99,7 @@
   }
 
   .experience-description.expanded ul {
-    max-height: 800px;
+    max-height: 1000px;
   }
 
   .experience-entry:nth-child(even) {
