@@ -7,6 +7,7 @@ interface ExperienceProps {
   company: string
   duration: string
   description: string[]
+  logo: string
   isAlternate: boolean
 }
 
@@ -15,6 +16,7 @@ const Experience: React.FC<ExperienceProps> = ({
   company,
   duration,
   description,
+  logo,
   isAlternate,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false)
@@ -45,6 +47,7 @@ const Experience: React.FC<ExperienceProps> = ({
           {isExpanded ? <Collapse /> : <Dropdown />}
         </div>
       </div>
+      <img src={logo} alt={`${company} logo`} className="company-logo" />
       <div className="blob"></div>
     </div>
   )

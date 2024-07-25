@@ -1,6 +1,7 @@
 .experience-entry {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 20px;
   position: relative;
   padding: 15px;
@@ -29,7 +30,7 @@
 .experience-content {
   position: relative;
   z-index: 2;
-  width: 100%;
+  width: calc(100% - 65px);
 }
 
 .blob {
@@ -73,13 +74,28 @@
   text-align: left;
 }
 
+.company-logo {
+  width: 60px;
+  height: auto;
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 10px;
+  opacity: 90%;
+}
+
 @media screen and (max-width: 768px) {
   .experience-entry {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
     text-align: left;
     margin-left: 0;
     margin-right: 0;
+  }
+
+  .experience-description.expanded ul {
+    max-height: 800px;
   }
 
   .experience-entry:nth-child(even) {
@@ -97,5 +113,14 @@
   .experience-entry:nth-child(even) .blob {
     left: -20px;
     right: auto;
+  }
+
+  .company-logo {
+    width: 50px;
+    right: 1px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 0;
+    margin-top: 0;
   }
 }
