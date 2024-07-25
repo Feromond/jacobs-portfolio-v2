@@ -94,6 +94,10 @@
     margin-right: 0;
   }
 
+  .experience-content {
+    width: calc(100% - 50px);
+  }
+
   .experience-description.expanded ul {
     max-height: 800px;
   }
