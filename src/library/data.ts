@@ -1,5 +1,9 @@
 import mishFergusonMosher2023 from '../assets/mishFergusonMosher2023.pdf'
 import fergusonMosherDettmerMish2021 from '../assets/ns2021FergEtAlDas.pdf'
+import strathconaLogo from '../assets/strathconaLogo.png'
+import altaMlLogo from '../assets/altaml-logo.png'
+import circuitStreamLogo from '../assets/circuitstreamlogo.jpg'
+import uOfCLogo from '../assets/uofcLogo.png'
 
 export const projects = [
   {
@@ -114,6 +118,7 @@ export const experiences = [
       'Implement data validation, data transformation, and data quality checks to ensure data consistency and accuracy.',
       'Stay current with industry trends and best practices in data engineering and technologies to continuously improve data infrastructure and workflows.',
     ],
+    logo: strathconaLogo,
   },
   {
     title: 'AI/Machine Learning Consultant (Contract)',
@@ -127,6 +132,7 @@ export const experiences = [
       'Engineered the Discord bot to offer interactive and personalized topic recommendations, enhancing user engagement and the learning experience',
       'Continuously validated and refined course content and the final project, guaranteeing accuracy, relevance, and high educational value.',
     ],
+    logo: circuitStreamLogo,
   },
   {
     title: 'Associate Machine Learning Developer (4-Month Contract)',
@@ -139,6 +145,7 @@ export const experiences = [
       'Developed a Machine Learning pipeline from scratch on Azure.',
       'Competed in a Microsoft-hosted hackathon, and created an application utilizing Natural Language Processing (NLP) to extract moods from journals.',
     ],
+    logo: altaMlLogo,
   },
   {
     title: 'Undergraduate Researcher',
@@ -153,6 +160,7 @@ export const experiences = [
       'Built interpretation of results from statistical analysis',
       'Published in Near Surface Geoscience Conference & Exhibition',
     ],
+    logo: uOfCLogo,
   },
 ]
 
