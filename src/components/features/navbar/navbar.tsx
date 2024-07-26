@@ -39,7 +39,7 @@ export function Navbar({
     const options = {
       root: null,
       rootMargin: '0px',
-      threshold: 0.6,
+      threshold: 0.25,
     }
 
     const handleIntersection = (entries: IntersectionObserverEntry[]) => {
