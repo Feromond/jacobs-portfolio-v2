@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { navbarData } from '../../../library'
 import './style.css'
 
@@ -18,7 +18,7 @@ export function Navbar({
   contactRef,
 }: NavProps) {
   const [isScrolled, setIsScrolled] = useState<boolean>(false)
-  const [activeLink, setActiveLink] = useState<number>()
+  const [activeLink, setActiveLink] = useState<number>(0)
 
   const changeBackground = () => {
     if (window.scrollY >= 40) {
@@ -28,7 +28,57 @@ export function Navbar({
     }
   }
 
-  window.addEventListener('scroll', changeBackground)
+  useEffect(() => {
+    window.addEventListener('scroll', changeBackground)
+    return () => {
+      window.removeEventListener('scroll', changeBackground)
+    }
+  }, [])
+
+  useEffect(() => {
+    const options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.6,
+    }
+
+    const handleIntersection = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          switch (entry.target) {
+            case homeRef.current:
+              setActiveLink(0)
+              break
+            case aboutRef.current:
+              setActiveLink(1)
+              break
+            case projectsRef.current:
+              setActiveLink(2)
+              break
+            case contactRef.current:
+              setActiveLink(3)
+              break
+            default:
+              break
+          }
+        }
+      })
+    }
+
+    const observer = new IntersectionObserver(handleIntersection, options)
+
+    if (homeRef.current) observer.observe(homeRef.current)
+    if (aboutRef.current) observer.observe(aboutRef.current)
+    if (projectsRef.current) observer.observe(projectsRef.current)
+    if (contactRef.current) observer.observe(contactRef.current)
+
+    return () => {
+      if (homeRef.current) observer.unobserve(homeRef.current)
+      if (aboutRef.current) observer.unobserve(aboutRef.current)
+      if (projectsRef.current) observer.unobserve(projectsRef.current)
+      if (contactRef.current) observer.unobserve(contactRef.current)
+    }
+  }, [homeRef, aboutRef, projectsRef, contactRef])
 
   // Conditionally set CSS classes based on state
   const navBackground = isScrolled ? 'nav-links-filled' : 'nav-links'
