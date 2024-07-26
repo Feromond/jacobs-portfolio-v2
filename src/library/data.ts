@@ -2,7 +2,7 @@ import mishFergusonMosher2023 from '../assets/mishFergusonMosher2023.pdf'
 import fergusonMosherDettmerMish2021 from '../assets/ns2021FergEtAlDas.pdf'
 import strathconaLogo from '../assets/strathconaLogo.png'
 import altaMlLogo from '../assets/altaml-logo.png'
-import circuitStreamLogo from '../assets/circuitstreamlogo.jpg'
+import circuitStreamLogo from '../assets/circuitstreamlogo.png'
 import uOfCLogo from '../assets/uofcLogo.png'
 
 export const projects = [
