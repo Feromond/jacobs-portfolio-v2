@@ -109,11 +109,11 @@ export const experiences = [
     company: 'Strathcona Resources LTD.',
     duration: 'March 2023 - Present',
     description: [
+      'Developed a web app saving $350,000 yearly, featuring Azure Single Sign-On authentication, managed group-based permissions, and integration with multiple APIs, centralizing access to diverse tools for enhanced user experience.',
       'Utilized LLM Transformers to create a Q&A chatbot with contextual knowledge of company HR documentation.',
-      'Developed a web app featuring Azure Single Sign-On authentication, managed group-based permissions, and integration with multiple APIs, centralizing access to diverse tools for enhanced user experience.',
       'Utilize various REST APIs to collect data, automate tasks, and gather insights for business intelligence purposes.',
       'Design and develop curated tables from raw data to provide valuable insights for various teams across the organization.',
-      'Create automated workflows for efficient data collection, cleaning, and transformation, generating curated data ready for analysis and visualization.',
+      'Create automated workflows (ETL’s) for efficient data collection, cleaning, and transformation, generating curated data ready for analysis and visualization.',
       'Optimize cloud compute costs by configuring ideal settings for specific tasks and improving script runtime efficiency.',
       'Implement data validation, data transformation, and data quality checks to ensure data consistency and accuracy.',
       'Stay current with industry trends and best practices in data engineering and technologies to continuously improve data infrastructure and workflows.',
@@ -123,7 +123,7 @@ export const experiences = [
   {
     title: 'AI/Machine Learning Consultant (Contract)',
     company: 'CircutStream',
-    duration: 'October 2023 - Present',
+    duration: 'October 2023 - May 2024',
     description: [
       'Spearheaded the creation of the capstone project, a sophisticated Discord bot that integrates OpenAI APIs and traditional machine learning models, like recommender systems.',
       'Collaborated in the development of a comprehensive Machine Learning Pre-University Course, focusing on practical, student-centered learning',
