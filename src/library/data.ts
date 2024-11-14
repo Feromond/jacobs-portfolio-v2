@@ -32,10 +32,10 @@ export const projects = [
     languages: ['Rust', 'GGEZ'],
   },
   {
-    title: 'Hypixel Bazaar Api',
-    githubUrl: 'https://github.com/Feromond/hypixel-bazaar-api',
+    title: 'Hypixel-API-Lib',
+    githubUrl: 'https://github.com/Feromond/hypixel-api-lib',
     externalUrl: '',
-    languages: ['Rust', 'Hypixel Api'],
+    languages: ['Python', 'Hypixel Api', 'Library', 'OOP'],
   },
   {
     title: 'Filtering Techniques',
