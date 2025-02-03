@@ -27,8 +27,7 @@ export const projects = [
   {
     title: 'Rust Snake Game',
     githubUrl: 'https://github.com/Feromond/rust_snake_game',
-    externalUrl:
-      'https://github.com/Feromond/rust_snake_game/releases/tag/v1.0.0',
+    externalUrl: 'https://github.com/Feromond/rust_snake_game/releases',
     languages: ['Rust', 'GGEZ'],
   },
   {
