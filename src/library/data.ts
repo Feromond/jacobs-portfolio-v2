@@ -4,6 +4,7 @@ import strathconaLogo from '../assets/strathconaLogo.png'
 import altaMlLogo from '../assets/altaml-logo.png'
 import circuitStreamLogo from '../assets/circuitstreamlogo.png'
 import uOfCLogo from '../assets/uofcLogo.png'
+import metaLogo from '../assets/meta_logo_black.svg'
 
 export const projects = [
   {
@@ -104,9 +105,16 @@ export const socialLinks = [
 
 export const experiences = [
   {
+    title: 'Software Engineer',
+    company: 'Meta',
+    duration: 'February 2025 - Present',
+    description: ['Working under Foundations & Monitization for Meta Gen AI'],
+    logo: metaLogo,
+  },
+  {
     title: 'Data Developer',
     company: 'Strathcona Resources LTD.',
-    duration: 'March 2023 - Present',
+    duration: 'March 2023 - February 2025',
     description: [
       'Developed a web app saving $350,000 yearly, featuring Azure Single Sign-On authentication, managed group-based permissions, and integration with multiple APIs, centralizing access to diverse tools for enhanced user experience.',
       'Utilized LLM Transformers to create a Q&A chatbot with contextual knowledge of company HR documentation.',
