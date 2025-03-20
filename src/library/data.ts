@@ -106,9 +106,16 @@ export const socialLinks = [
 export const experiences = [
   {
     title: 'Software Engineer',
-    company: 'Meta',
+    company: 'Meta Platforms, Inc.',
     duration: 'February 2025 - Present',
-    description: ['Working under Foundations & Monitization for Meta Gen AI'],
+    description: [
+      'Working on Foundations & Monitization for Meta GenAI.',
+      'Develop and maintain UI components using React, enhancing the user experience for data labeling workflows.',
+      'Contribute to backend development in Hack/PHP, optimizing system performance.',
+      'Debug, monitor, and resolve issues to ensure system reliability.',
+      'Write and maintain test cases to improve stability and prevent regressions.',
+      'Collaborate with cross-functional teams to enhance system functionality.',
+    ],
     logo: metaLogo,
   },
   {
