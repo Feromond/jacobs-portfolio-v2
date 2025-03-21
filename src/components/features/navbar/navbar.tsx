@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { navbarData } from '../../../library'
+import * as Icons from '../../../library/icons'
 import './style.css'
 
 type NavProps = {
@@ -19,6 +20,27 @@ export function Navbar({
 }: NavProps) {
   const [isScrolled, setIsScrolled] = useState<boolean>(false)
   const [activeLink, setActiveLink] = useState<number>(0)
+  const [hoveredLink, setHoveredLink] = useState<number | null>(null)
+  const [sliderStyle, setSliderStyle] = useState<React.CSSProperties>({})
+  const navItemsRef = useRef<(HTMLSpanElement | null)[]>([])
+
+  const updateSliderStyle = useCallback((index: number) => {
+    const currentItem = navItemsRef.current[index]
+    if (currentItem) {
+      const rect = currentItem.getBoundingClientRect()
+      const parentRect = currentItem.parentElement?.getBoundingClientRect()
+      if (parentRect) {
+        setSliderStyle({
+          width: `${rect.width}px`,
+          left: `${rect.left - parentRect.left}px`,
+        })
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    updateSliderStyle(activeLink)
+  }, [activeLink, updateSliderStyle])
 
   const changeBackground = () => {
     if (window.scrollY >= 40) {
@@ -132,27 +154,38 @@ export function Navbar({
   return (
     <div className="nav">
       <div className={navBackground}>
-        {navbarData.navigator.map((nav, index) => (
-          <span
-            key={index}
-            onClick={() => handleLinkClick(index)}
-            className={`nav-links-item ${activeLink === index ? 'active' : ''}`}
-          >
-            {nav.name}
-          </span>
-        ))}
+        {navbarData.navigator.map((nav, index) => {
+          const Icon = Icons[nav.icon as keyof typeof Icons]
+          const isHovered = hoveredLink === index
+          const isActive = activeLink === index
+          const showText = isHovered || (isActive && hoveredLink === null)
 
-        <div
-          className={`nav-slider ${
-            activeLink === 0
-              ? 'Home'
-              : activeLink === 1
-              ? 'About'
-              : activeLink === 2
-              ? 'Projects'
-              : activeLink === 3 && 'Contact'
-          }`}
-        />
+          return (
+            <span
+              key={index}
+              ref={(el) => (navItemsRef.current[index] = el)}
+              onClick={() => handleLinkClick(index)}
+              onMouseEnter={() => {
+                setHoveredLink(index)
+                updateSliderStyle(index)
+              }}
+              onMouseLeave={() => {
+                setHoveredLink(null)
+                updateSliderStyle(activeLink)
+              }}
+              className={`nav-links-item ${isActive ? 'active' : ''}`}
+            >
+              <div className="nav-icon-text-wrapper">
+                <Icon className={`nav-icon ${showText ? 'hide' : ''}`} />
+                <span className={`nav-text ${showText ? 'show' : ''}`}>
+                  {nav.name}
+                </span>
+              </div>
+            </span>
+          )
+        })}
+
+        <div className="nav-slider" style={sliderStyle} />
       </div>
     </div>
   )

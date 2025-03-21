@@ -19,6 +19,8 @@
   border: 1px solid transparent;
   transition: all 0.2s ease;
   position: relative;
+  padding: 4px;
+  height: 44px;
 }
 
 .nav-links-filled {
@@ -41,20 +43,62 @@
   transition: all 0.2s ease;
   font-size: 13px;
   z-index: 2;
-  padding: 15px 5px;
-  margin: 0 5px;
+  padding: 8px 12px;
+  margin: 0 2px;
   font-weight: 300;
+  position: relative;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
 }
-.nav-links-item.contact {
-  border: none;
-  font-weight: 300;
-  color: var(--text-color);
-  background-color: transparent;
+.nav-icon-text-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-width: 24px;
+  height: 24px;
+}
+
+.nav-icon {
+  position: absolute;
+  font-size: 20px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 1;
+  transform: scale(1);
+}
+
+.nav-icon.hide {
+  opacity: 0;
+  transform: scale(0);
+}
+
+.nav-text {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  pointer-events: none;
+  font-size: 13px;
+  padding: 0 4px;
+}
+
+.nav-text.show {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+}
+
+.nav-links-item.active {
+  color: var(--color-white);
 }
 .nav-links-item:hover {
   cursor: pointer;
   color: var(--color-white);
-  transition: all 0.2s ease;
 }
 .nav-links-item.active,
 .nav-links-item.active:hover {
@@ -63,121 +107,158 @@
 }
 .nav-slider {
   position: absolute;
-  left: 5px;
-  width: 50px;
-  height: 30px;
-  border-radius: 30px;
+  height: 36px;
   background: var(--color-navbar-slider);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+  border-radius: 18px;
+  top: 4px;
 }
 .nav-slider.Home {
-  transform: translateX(0px);
-  width: 50px;
+  transform: translateX(5px);
+  width: 44px;
 }
 .nav-slider.About {
-  transform: translateX(55px);
-  width: 60px;
+  transform: translateX(53px);
+  width: 44px;
 }
 
 .nav-slider.Projects {
-  transform: translateX(112px);
-  width: 60px;
+  transform: translateX(101px);
+  width: 44px;
 }
 
 .nav-slider.Contact {
-  width: 75px;
-
-  transform: translateX(172px);
+  transform: translateX(149px);
+  width: 44px;
 }
 
 @media screen and (min-width: 385px) {
+  .nav-links,
+  .nav-links-filled {
+    height: 48px;
+  }
+
   .nav-links-item {
-    padding: 15px 10px;
-    margin: 0 10px;
+    padding: 8px 15px;
+    margin: 0 3px;
+    min-width: 40px;
+    height: 40px;
+    border-radius: 20px;
+  }
+
+  .nav-text {
+    font-size: 14px;
+    padding: 0 6px;
   }
 
   .nav-slider {
-    width: 60px;
+    height: 40px;
+    border-radius: 20px;
   }
+
   .nav-slider.Home {
-    transform: translateX(0px);
-    width: 65px;
+    transform: translateX(8px);
+    width: 48px;
   }
+
   .nav-slider.About {
-    transform: translateX(75px);
-    width: 70px;
+    transform: translateX(65px);
+    width: 48px;
   }
 
   .nav-slider.Projects {
-    transform: translateX(150px);
-    width: 80px;
+    transform: translateX(122px);
+    width: 48px;
   }
 
   .nav-slider.Contact {
-    width: 75px;
-    transform: translateX(240px);
+    transform: translateX(179px);
+    width: 48px;
   }
 }
 
 @media screen and (min-width: 460px) {
+  .nav-links,
+  .nav-links-filled {
+    height: 52px;
+  }
+
   .nav-links-item {
+    padding: 10px 18px;
+    min-width: 44px;
+    height: 44px;
+    border-radius: 22px;
+  }
+
+  .nav-text {
     font-size: 14px;
-    padding: 15px 15px;
-    margin: 0 5px;
+    padding: 0 8px;
   }
+
   .nav-slider {
-    left: 8px;
-    width: 70px;
-    height: 35px;
+    height: 44px;
+    border-radius: 22px;
   }
+
   .nav-slider.Home {
-    transform: translateX(0px);
-    width: 63px;
+    transform: translateX(8px);
+    width: 52px;
   }
+
   .nav-slider.About {
-    transform: translateX(75px);
-    width: 70px;
+    transform: translateX(74px);
+    width: 52px;
   }
 
   .nav-slider.Projects {
-    transform: translateX(155px);
-    width: 80px;
+    transform: translateX(140px);
+    width: 52px;
   }
 
   .nav-slider.Contact {
-    transform: translateX(242px);
-    width: 85px;
+    transform: translateX(206px);
+    width: 52px;
   }
 }
 @media screen and (min-width: 690px) {
+  .nav-links,
+  .nav-links-filled {
+    height: 56px;
+  }
+
   .nav-links-item {
+    padding: 12px 25px;
+    min-width: 48px;
+    height: 48px;
+    border-radius: 24px;
+  }
+
+  .nav-text {
     font-size: calc(18 / 16 * 1rem);
-    padding: 18px 30px;
-    margin: 0 5px;
+    padding: 0 10px;
   }
 
   .nav-slider {
-    left: 8px;
-    width: 100px;
-    height: 40px;
+    height: 48px;
+    border-radius: 24px;
   }
   .nav-slider.Home {
-    transform: translateX(0px);
-    width: 100px;
+    transform: translateX(10px);
+    width: 60px;
   }
   .nav-slider.About {
-    transform: translateX(120px);
-    width: 100px;
+    transform: translateX(95px);
+    width: 60px;
   }
 
   .nav-slider.Projects {
-    transform: translateX(240px);
-    width: 110px;
+    transform: translateX(180px);
+    width: 60px;
   }
 
   .nav-slider.Contact {
-    transform: translateX(375px);
-    width: 100px;
-    width: 105px;
+    transform: translateX(265px);
+    width: 60px;
   }
 }

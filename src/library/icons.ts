@@ -9,10 +9,13 @@ import {
   IoIosArrowDown as Dropdown,
   IoIosArrowUp as Collapse,
 } from 'react-icons/io'
-
 import {
   RiTwitterLine as Twitter,
   RiLinkedinFill as LinkedIn,
+  RiHome5Line as Home,
+  RiUser3Line as User,
+  RiCodeSSlashLine as Code,
+  RiMailLine as Mail,
 } from 'react-icons/ri'
 import { IoLogoYoutube as YouTube } from 'react-icons/io'
 import { FiFeather as Blog } from 'react-icons/fi'
@@ -31,4 +34,8 @@ export {
   Dropdown,
   Collapse,
   Download,
+  Home,
+  User,
+  Code,
+  Mail,
 }

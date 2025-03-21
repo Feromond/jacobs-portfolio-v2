@@ -180,9 +180,9 @@ export const experiences = [
 
 export const navbarData = {
   navigator: [
-    { name: 'Home' },
-    { name: 'About' },
-    { name: 'Projects' },
-    { name: 'Contact' },
+    { name: 'Home', icon: 'Home' },
+    { name: 'About', icon: 'User' },
+    { name: 'Projects', icon: 'Code' },
+    { name: 'Contact', icon: 'Mail' },
   ],
 }
