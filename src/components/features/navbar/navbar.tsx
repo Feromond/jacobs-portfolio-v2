@@ -38,6 +38,25 @@ export function Navbar({
     }
   }, [])
 
+  // Update slider on window resize
+  useEffect(() => {
+    let resizeTimeout: number
+
+    const handleResize = () => {
+      // Debounce the resize event
+      clearTimeout(resizeTimeout)
+      resizeTimeout = setTimeout(() => {
+        updateSliderStyle(hoveredLink !== null ? hoveredLink : activeLink)
+      }, 100)
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      clearTimeout(resizeTimeout)
+    }
+  }, [updateSliderStyle, hoveredLink, activeLink])
+
   useEffect(() => {
     updateSliderStyle(activeLink)
   }, [activeLink, updateSliderStyle])
