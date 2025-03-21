@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { navbarData } from '../../../library'
 import './style.css'
 
@@ -35,34 +35,59 @@ export function Navbar({
     }
   }, [])
 
+  // Debounced version of setActiveLink to prevent rapid updates
+  const debouncedSetActiveLink = useCallback((index: number) => {
+    const timeoutId = setTimeout(() => {
+      setActiveLink(index)
+    }, 50) // Small delay to smooth out rapid changes
+
+    return () => clearTimeout(timeoutId)
+  }, [])
+
   useEffect(() => {
     const options = {
       root: null,
-      rootMargin: '0px',
-      threshold: 0.25,
+      rootMargin: '-20% 0px -20% 0px', // Adjusted for better visibility detection
+      threshold: [0, 0.25, 0.5, 0.75, 1], // Multiple thresholds to track visibility better
     }
+
+    const sectionToIndex = new Map([
+      [homeRef.current, 0],
+      [aboutRef.current, 1],
+      [projectsRef.current, 2],
+      [contactRef.current, 3],
+    ])
+
+    let visibleSections = new Map() // Track intersection ratio of each section
 
     const handleIntersection = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
+        // Store or remove the intersection ratio for each section
         if (entry.isIntersecting) {
-          switch (entry.target) {
-            case homeRef.current:
-              setActiveLink(0)
-              break
-            case aboutRef.current:
-              setActiveLink(1)
-              break
-            case projectsRef.current:
-              setActiveLink(2)
-              break
-            case contactRef.current:
-              setActiveLink(3)
-              break
-            default:
-              break
-          }
+          visibleSections.set(entry.target, entry.intersectionRatio)
+        } else {
+          visibleSections.delete(entry.target)
         }
       })
+
+      // Find the section with the highest visibility ratio
+      let maxRatio = 0
+      let mostVisibleSection = null
+
+      visibleSections.forEach((ratio, section) => {
+        if (ratio > maxRatio) {
+          maxRatio = ratio
+          mostVisibleSection = section
+        }
+      })
+
+      // Update active link based on the most visible section
+      if (mostVisibleSection && sectionToIndex.has(mostVisibleSection)) {
+        debouncedSetActiveLink(sectionToIndex.get(mostVisibleSection)!)
+      } else if (visibleSections.size === 0 && window.scrollY === 0) {
+        // If no sections are visible and we're at the top, activate Home
+        debouncedSetActiveLink(0)
+      }
     }
 
     const observer = new IntersectionObserver(handleIntersection, options)
@@ -78,7 +103,7 @@ export function Navbar({
       if (projectsRef.current) observer.unobserve(projectsRef.current)
       if (contactRef.current) observer.unobserve(contactRef.current)
     }
-  }, [homeRef, aboutRef, projectsRef, contactRef])
+  }, [homeRef, aboutRef, projectsRef, contactRef, debouncedSetActiveLink])
 
   // Conditionally set CSS classes based on state
   const navBackground = isScrolled ? 'nav-links-filled' : 'nav-links'
