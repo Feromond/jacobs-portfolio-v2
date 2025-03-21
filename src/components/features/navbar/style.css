@@ -43,8 +43,8 @@
   transition: all 0.2s ease;
   font-size: 13px;
   z-index: 2;
-  padding: 8px 12px;
-  margin: 0 2px;
+  padding: 8px 16px;
+  margin: 0 4px;
   font-weight: 300;
   position: relative;
   border-radius: 16px;
@@ -52,6 +52,7 @@
   align-items: center;
   justify-content: center;
   min-width: 36px;
+  width: auto;
   height: 36px;
 }
 .nav-icon-text-wrapper {
@@ -60,6 +61,7 @@
   justify-content: center;
   position: relative;
   min-width: 24px;
+  width: auto;
   height: 24px;
 }
 
@@ -85,7 +87,8 @@
   white-space: nowrap;
   pointer-events: none;
   font-size: 13px;
-  padding: 0 4px;
+  padding: 0 8px;
+  width: max-content;
 }
 
 .nav-text.show {
@@ -116,21 +119,26 @@
 }
 .nav-slider.Home {
   transform: translateX(5px);
-  width: 44px;
+  width: 48px;
 }
 .nav-slider.About {
-  transform: translateX(53px);
-  width: 44px;
+  transform: translateX(61px);
+  width: 48px;
+}
+
+.nav-slider.Experience {
+  transform: translateX(117px);
+  width: 100px;
 }
 
 .nav-slider.Projects {
-  transform: translateX(101px);
-  width: 44px;
+  transform: translateX(210px);
+  width: 55px;
 }
 
 .nav-slider.Contact {
-  transform: translateX(149px);
-  width: 44px;
+  transform: translateX(273px);
+  width: 55px;
 }
 
 @media screen and (min-width: 385px) {
@@ -140,7 +148,7 @@
   }
 
   .nav-links-item {
-    padding: 8px 15px;
+    padding: 8px 18px;
     margin: 0 3px;
     min-width: 40px;
     height: 40px;
@@ -149,32 +157,12 @@
 
   .nav-text {
     font-size: 14px;
-    padding: 0 6px;
+    padding: 0 8px;
   }
 
   .nav-slider {
     height: 40px;
     border-radius: 20px;
-  }
-
-  .nav-slider.Home {
-    transform: translateX(8px);
-    width: 48px;
-  }
-
-  .nav-slider.About {
-    transform: translateX(65px);
-    width: 48px;
-  }
-
-  .nav-slider.Projects {
-    transform: translateX(122px);
-    width: 48px;
-  }
-
-  .nav-slider.Contact {
-    transform: translateX(179px);
-    width: 48px;
   }
 }
 
@@ -185,7 +173,7 @@
   }
 
   .nav-links-item {
-    padding: 10px 18px;
+    padding: 10px 20px;
     min-width: 44px;
     height: 44px;
     border-radius: 22px;
@@ -193,32 +181,12 @@
 
   .nav-text {
     font-size: 14px;
-    padding: 0 8px;
+    padding: 0 10px;
   }
 
   .nav-slider {
     height: 44px;
     border-radius: 22px;
-  }
-
-  .nav-slider.Home {
-    transform: translateX(8px);
-    width: 52px;
-  }
-
-  .nav-slider.About {
-    transform: translateX(74px);
-    width: 52px;
-  }
-
-  .nav-slider.Projects {
-    transform: translateX(140px);
-    width: 52px;
-  }
-
-  .nav-slider.Contact {
-    transform: translateX(206px);
-    width: 52px;
   }
 }
 @media screen and (min-width: 690px) {
@@ -228,7 +196,7 @@
   }
 
   .nav-links-item {
-    padding: 12px 25px;
+    padding: 12px 28px;
     min-width: 48px;
     height: 48px;
     border-radius: 24px;
@@ -236,29 +204,11 @@
 
   .nav-text {
     font-size: calc(18 / 16 * 1rem);
-    padding: 0 10px;
+    padding: 0 12px;
   }
 
   .nav-slider {
     height: 48px;
     border-radius: 24px;
-  }
-  .nav-slider.Home {
-    transform: translateX(10px);
-    width: 60px;
-  }
-  .nav-slider.About {
-    transform: translateX(95px);
-    width: 60px;
-  }
-
-  .nav-slider.Projects {
-    transform: translateX(180px);
-    width: 60px;
-  }
-
-  .nav-slider.Contact {
-    transform: translateX(265px);
-    width: 60px;
   }
 }

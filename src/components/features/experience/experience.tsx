@@ -1,8 +1,23 @@
 import React, { useState } from 'react'
 import './style.css'
 import { Collapse, Dropdown } from '../../../library'
+import { Headings } from '../../core/headings/headings'
+import { experiences } from '../../../library'
 
-interface ExperienceProps {
+const Experience = React.forwardRef<HTMLDivElement>((props, ref) => {
+  return (
+    <div ref={ref} className="experience-section">
+      <Headings title="Experience" subtitle="My Professional Journey" />
+      <div className="experiences">
+        {experiences.map((exp, index) => (
+          <ExperienceItem key={index} {...exp} isAlternate={index % 2 !== 0} />
+        ))}
+      </div>
+    </div>
+  )
+})
+
+interface ExperienceItemProps {
   title: string
   company: string
   duration: string
@@ -11,7 +26,7 @@ interface ExperienceProps {
   isAlternate: boolean
 }
 
-const Experience: React.FC<ExperienceProps> = ({
+const ExperienceItem: React.FC<ExperienceItemProps> = ({
   title,
   company,
   duration,
@@ -68,5 +83,7 @@ const Experience: React.FC<ExperienceProps> = ({
     </div>
   )
 }
+
+Experience.displayName = 'Experience'
 
 export default Experience

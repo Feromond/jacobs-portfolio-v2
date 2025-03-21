@@ -1,14 +1,12 @@
 import React from 'react'
 import { Headings } from '../../core/headings/headings'
-import Experience from '../experience/experience'
-import { experiences } from '../../../library'
 import resumePDF from '../../../assets/Jacob_Mish_Resume.pdf'
 import './style.css'
 
 const About = React.forwardRef<HTMLDivElement>((props, ref) => {
   return (
     <div ref={ref} className="about-section">
-      <Headings title="About" subtitle="Hi, I'm Jacob." />{' '}
+      <Headings title="About" subtitle="Hi, I'm Jacob." />
       <p className="about-text">
         <p>
           I&apos;m a professional in the field of data and machine learning with
@@ -56,12 +54,6 @@ const About = React.forwardRef<HTMLDivElement>((props, ref) => {
         <a href={resumePDF} download>
           <button className="download-button">Download Resume</button>
         </a>
-      </div>
-      <div className="experiences">
-        <Headings title="Experiences" subtitle="My Past Experiences" />{' '}
-        {experiences.map((exp, index) => (
-          <Experience key={index} {...exp} isAlternate={index % 2 !== 0} />
-        ))}
       </div>
     </div>
   )

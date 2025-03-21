@@ -8,6 +8,7 @@ type NavProps = {
   homeRef: React.RefObject<HTMLDivElement>
   aboutRef: React.RefObject<HTMLDivElement>
   projectsRef: React.RefObject<HTMLDivElement>
+  experienceRef: React.RefObject<HTMLDivElement>
   contactRef: React.RefObject<HTMLDivElement>
 }
 
@@ -16,6 +17,7 @@ export function Navbar({
   homeRef,
   aboutRef,
   projectsRef,
+  experienceRef,
   contactRef,
 }: NavProps) {
   const [isScrolled, setIsScrolled] = useState<boolean>(false)
@@ -30,9 +32,11 @@ export function Navbar({
       const rect = currentItem.getBoundingClientRect()
       const parentRect = currentItem.parentElement?.getBoundingClientRect()
       if (parentRect) {
+        // Add extra padding to ensure text fits comfortably
+        const extraPadding = 16
         setSliderStyle({
-          width: `${rect.width}px`,
-          left: `${rect.left - parentRect.left}px`,
+          width: `${rect.width + extraPadding}px`,
+          left: `${rect.left - parentRect.left - extraPadding / 2}px`,
         })
       }
     }
@@ -95,8 +99,9 @@ export function Navbar({
     const sectionToIndex = new Map([
       [homeRef.current, 0],
       [aboutRef.current, 1],
-      [projectsRef.current, 2],
-      [contactRef.current, 3],
+      [experienceRef.current, 2],
+      [projectsRef.current, 3],
+      [contactRef.current, 4],
     ])
 
     let visibleSections = new Map() // Track intersection ratio of each section
@@ -135,16 +140,25 @@ export function Navbar({
 
     if (homeRef.current) observer.observe(homeRef.current)
     if (aboutRef.current) observer.observe(aboutRef.current)
+    if (experienceRef.current) observer.observe(experienceRef.current)
     if (projectsRef.current) observer.observe(projectsRef.current)
     if (contactRef.current) observer.observe(contactRef.current)
 
     return () => {
       if (homeRef.current) observer.unobserve(homeRef.current)
       if (aboutRef.current) observer.unobserve(aboutRef.current)
+      if (experienceRef.current) observer.unobserve(experienceRef.current)
       if (projectsRef.current) observer.unobserve(projectsRef.current)
       if (contactRef.current) observer.unobserve(contactRef.current)
     }
-  }, [homeRef, aboutRef, projectsRef, contactRef, debouncedSetActiveLink])
+  }, [
+    homeRef,
+    aboutRef,
+    experienceRef,
+    projectsRef,
+    contactRef,
+    debouncedSetActiveLink,
+  ])
 
   // Conditionally set CSS classes based on state
   const navBackground = isScrolled ? 'nav-links-filled' : 'nav-links'
@@ -160,9 +174,12 @@ export function Navbar({
         scrollToSection(aboutRef)
         break
       case 2:
-        scrollToSection(projectsRef)
+        scrollToSection(experienceRef)
         break
       case 3:
+        scrollToSection(projectsRef)
+        break
+      case 4:
         scrollToSection(contactRef)
         break
       default:

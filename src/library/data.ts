@@ -182,6 +182,7 @@ export const navbarData = {
   navigator: [
     { name: 'Home', icon: 'Home' },
     { name: 'About', icon: 'User' },
+    { name: 'Experience', icon: 'Briefcase' },
     { name: 'Projects', icon: 'Code' },
     { name: 'Contact', icon: 'Mail' },
   ],
