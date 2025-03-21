@@ -4,17 +4,18 @@
   justify-content: space-between;
   margin-bottom: 20px;
   position: relative;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   z-index: 3;
+  backdrop-filter: blur(8px);
 }
 
 .experience-entry:hover {
-  transform: translateY(-5px) scale(1.04);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
 }
 
 .experience-entry:nth-child(odd) {
@@ -33,9 +34,63 @@
   width: calc(100% - 65px);
 }
 
+.experience-content ul {
+  position: relative;
+  list-style-type: disc !important;
+  margin-left: 20px;
+  padding-left: 20px;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transform: translateY(-5px);
+}
+
+.experience-description.expanded ul {
+  max-height: 500px;
+  padding: 10px 0 10px 20px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.experience-content ul li {
+  margin-bottom: 8px;
+  position: relative;
+  display: list-item;
+  list-style: disc outside;
+}
+
+.dropdown-indicator {
+  font-size: 1.4rem;
+  color: var(--color-obsidien);
+  text-align: left;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.experience-description.expanded + .dropdown-indicator {
+  transform: rotate(180deg);
+}
+
+.company-logo {
+  width: 60px;
+  height: auto;
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 10px;
+  opacity: 0.9;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.experience-entry:hover .company-logo {
+  transform: translateY(-50%) scale(1.05);
+  opacity: 1;
+}
+
 .blob {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   background: var(---color-code-d);
   border-radius: 50%;
   position: absolute;
@@ -43,46 +98,19 @@
   right: -20px;
   z-index: -1;
   opacity: 0.5;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: blur(20px);
+}
+
+.experience-entry:hover .blob {
+  transform: scale(1.1) rotate(10deg);
+  opacity: 0.7;
 }
 
 .experience-entry:nth-child(even) .blob {
   background: var(--color-gradient-d);
   left: -20px;
   right: auto;
-}
-
-.experience-content ul {
-  position: relative;
-  list-style-type: disc;
-  margin-left: 20px;
-  padding-left: 20px;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease, padding 0.3s ease;
-  opacity: 0;
-}
-
-.experience-description.expanded ul {
-  max-height: 500px;
-  padding-left: 20px 0;
-  opacity: 1;
-}
-
-.dropdown-indicator {
-  font-size: 1.4rem;
-  color: var(--color-obsidien);
-  text-align: left;
-}
-
-.company-logo {
-  width: 60px;
-  height: auto;
-  position: absolute;
-  right: 5px;
-  top: 50%;
-  transform: translateY(-50%);
-  border-radius: 10px;
-  opacity: 90%;
 }
 
 @media screen and (max-width: 768px) {
