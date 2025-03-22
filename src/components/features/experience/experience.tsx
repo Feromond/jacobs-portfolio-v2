@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import './style.css'
-import { Collapse, Dropdown } from '../../../library'
 import { Headings } from '../../core/headings/headings'
 import { experiences } from '../../../library'
 
@@ -69,9 +68,7 @@ const ExperienceItem: React.FC<ExperienceItemProps> = ({
             ))}
           </ul>
         </div>
-        <div className="dropdown-indicator" aria-hidden="true">
-          {isExpanded ? <Collapse /> : <Dropdown />}
-        </div>
+        <div className="dropdown-indicator" aria-hidden="true"></div>
       </div>
       <img
         src={logo}

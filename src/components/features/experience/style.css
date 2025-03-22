@@ -7,10 +7,11 @@
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   cursor: pointer;
   z-index: 3;
   backdrop-filter: blur(8px);
+  overflow: visible;
 }
 
 .experience-entry:hover {
@@ -41,30 +42,100 @@
   padding-left: 20px;
   max-height: 0;
   overflow: hidden;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   opacity: 0;
-  transform: translateY(-5px);
+  transform: translateY(-10px);
 }
 
 .experience-description.expanded ul {
-  max-height: 500px;
-  padding: 10px 0 10px 20px;
+  max-height: 800px;
+  padding: 15px 0 20px 20px;
   opacity: 1;
   transform: translateY(0);
 }
 
 .experience-content ul li {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   position: relative;
   display: list-item;
   list-style: disc outside;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* Dynamic staggered animation using nth-child selector */
+.experience-content ul li:nth-child(1) {
+  transition-delay: 0.05s;
+}
+.experience-content ul li:nth-child(2) {
+  transition-delay: 0.1s;
+}
+.experience-content ul li:nth-child(3) {
+  transition-delay: 0.15s;
+}
+.experience-content ul li:nth-child(4) {
+  transition-delay: 0.2s;
+}
+.experience-content ul li:nth-child(5) {
+  transition-delay: 0.25s;
+}
+.experience-content ul li:nth-child(6) {
+  transition-delay: 0.3s;
+}
+.experience-content ul li:nth-child(7) {
+  transition-delay: 0.35s;
+}
+.experience-content ul li:nth-child(8) {
+  transition-delay: 0.4s;
+}
+.experience-content ul li:nth-child(9) {
+  transition-delay: 0.45s;
+}
+.experience-content ul li:nth-child(10) {
+  transition-delay: 0.5s;
+}
+/* Can add more if needed */
+
+.experience-description.expanded ul li {
+  opacity: 1;
+  transform: translateX(0);
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.2);
 }
 
 .dropdown-indicator {
-  font-size: 1.4rem;
-  color: var(--color-obsidien);
-  text-align: left;
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  margin-top: 10px;
+}
+
+.dropdown-indicator::before {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 2px;
+  background: #cb1ab1;
+  border-radius: 1px;
+  transform: rotate(45deg) translateX(-2px);
+  transition: all 0.3s ease;
+  box-shadow: 0 0 8px #cb1ab1, 0 0 16px rgba(203, 26, 177, 0.5);
+}
+
+.dropdown-indicator::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 2px;
+  background: #34cee5;
+  border-radius: 1px;
+  transform: rotate(-45deg) translateX(2px);
+  transition: all 0.3s ease;
+  box-shadow: 0 0 8px #34cee5, 0 0 16px rgba(52, 206, 229, 0.5);
 }
 
 .experience-description.expanded + .dropdown-indicator {
@@ -80,12 +151,14 @@
   transform: translateY(-50%);
   border-radius: 10px;
   opacity: 0.9;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .experience-entry:hover .company-logo {
   transform: translateY(-50%) scale(1.05);
   opacity: 1;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
 }
 
 .blob {
@@ -98,13 +171,14 @@
   right: -20px;
   z-index: -1;
   opacity: 0.5;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   filter: blur(20px);
 }
 
 .experience-entry:hover .blob {
   transform: scale(1.1) rotate(10deg);
   opacity: 0.7;
+  filter: blur(25px);
 }
 
 .experience-entry:nth-child(even) .blob {
@@ -127,7 +201,7 @@
   }
 
   .experience-description.expanded ul {
-    max-height: 1000px;
+    max-height: 1200px;
   }
 
   .experience-entry:nth-child(even) {
