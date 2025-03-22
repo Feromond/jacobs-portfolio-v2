@@ -114,6 +114,11 @@ export function Navbar({
       // Skip updates during manual navigation
       if (isManualNavRef.current) return
 
+      // On mobile, clear any lingering hover states during scroll
+      if (isMobile && hoveredItem !== null) {
+        setHoveredItem(null)
+      }
+
       // Process entries
       entries.forEach((entry) => {
         const targetIndex = sectionRefs.find(
@@ -182,6 +187,9 @@ export function Navbar({
     // Skip if already on this section
     if (clickedItem === index && activeSection === index && clickedItem !== -1)
       return
+
+    // Clear any persistent hover state (important for mobile)
+    setHoveredItem(null)
 
     // Set clicked state (styling will follow hover state that's already active)
     setClickedItem(index)
@@ -260,6 +268,30 @@ export function Navbar({
     updateSliderPosition(indexToShow)
   }, [hoveredItem, activeSection, clickedItem, updateSliderPosition])
 
+  // Effect to handle touch events on mobile devices
+  useEffect(() => {
+    // This handles the case where the user taps elsewhere on the screen
+    // to ensure any lingering hover states from previous taps are cleared
+    const handleTouchStart = (e: TouchEvent) => {
+      // Only clear hover if we're not touching a nav item
+      // Check if the touch target is within the navbar
+      const navbarEl = document.querySelector('.nav')
+      const target = e.target as Node
+
+      // If the touch is outside the navbar, clear hover state
+      if (navbarEl && !navbarEl.contains(target)) {
+        setHoveredItem(null)
+      }
+    }
+
+    // Add global touch handler
+    document.addEventListener('touchstart', handleTouchStart)
+
+    return () => {
+      document.removeEventListener('touchstart', handleTouchStart)
+    }
+  }, [])
+
   return (
     <div className="nav">
       <div className={navBackground}>
@@ -277,6 +309,13 @@ export function Navbar({
               key={index}
               ref={(el) => (navItemsRef.current[index] = el)}
               onClick={() => handleItemClick(index)}
+              onTouchStart={() => {
+                // On mobile, immediately clear any previously active hover states
+                // This ensures we don't get stuck in a hover state on touch devices
+                if (hoveredItem !== null) {
+                  setHoveredItem(null)
+                }
+              }}
               onMouseEnter={() => {
                 setHoveredItem(index)
                 updateSliderPosition(index)
