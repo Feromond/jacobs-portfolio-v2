@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { navbarData } from '../../../library'
 import * as Icons from '../../../library/icons'
 import './style.css'
@@ -20,105 +20,84 @@ export function Navbar({
   experienceRef,
   contactRef,
 }: NavProps) {
+  // Track if we're scrolled down enough to show the filled navbar
   const [isScrolled, setIsScrolled] = useState<boolean>(false)
-  const [activeLink, setActiveLink] = useState<number>(0)
-  const [hoveredLink, setHoveredLink] = useState<number | null>(null)
-  const [sliderStyle, setSliderStyle] = useState<React.CSSProperties>({})
+
+  // Track which section is currently active (from scroll detection)
+  const [activeSection, setActiveSection] = useState<number>(0)
+
+  // Track if user is currently hovering a nav item
+  const [hoveredItem, setHoveredItem] = useState<number | null>(null)
+
+  // Track if we're in a manual navigation state (prevents scroll updates)
+  const isManualNavRef = useRef<boolean>(false)
+
+  // Track the last clicked item (used for manual navigation)
+  const [clickedItem, setClickedItem] = useState<number>(-1)
+
+  // Keep references to nav items for measurements
   const navItemsRef = useRef<(HTMLSpanElement | null)[]>([])
-  const manualScrollRef = useRef<boolean>(false)
-  const observerEnabledRef = useRef<boolean>(true)
 
-  const updateSliderStyle = useCallback((index: number) => {
-    const currentItem = navItemsRef.current[index]
-    if (currentItem) {
-      const rect = currentItem.getBoundingClientRect()
-      const parentRect = currentItem.parentElement?.getBoundingClientRect()
-      if (parentRect) {
-        // Add extra padding to ensure text fits comfortably
-        const extraPadding = 16
+  // Store slider position and size
+  const [sliderStyle, setSliderStyle] = useState<React.CSSProperties>({})
 
-        // Set the slider style with values rounded to prevent sub-pixel rendering issues
-        setSliderStyle({
-          width: `${Math.round(rect.width + extraPadding)}px`,
-          left: `${Math.round(
-            rect.left - parentRect.left - extraPadding / 2
-          )}px`,
-        })
-      }
-    }
-  }, [])
-
-  // Update slider on window resize
-  useEffect(() => {
-    let resizeTimeout: number
-
-    const handleResize = () => {
-      // Debounce the resize event
-      clearTimeout(resizeTimeout)
-      resizeTimeout = setTimeout(() => {
-        updateSliderStyle(hoveredLink !== null ? hoveredLink : activeLink)
-      }, 100)
-    }
-
-    window.addEventListener('resize', handleResize)
-    return () => {
-      window.removeEventListener('resize', handleResize)
-      clearTimeout(resizeTimeout)
-    }
-  }, [updateSliderStyle, hoveredLink, activeLink])
-
-  // Update slider when activeLink changes
-  useEffect(() => {
-    updateSliderStyle(activeLink)
-  }, [activeLink, updateSliderStyle])
-
-  // Handle background change on scroll
+  // Track scroll position for background change
   useEffect(() => {
     const changeBackground = () => {
-      if (window.scrollY >= 40) {
-        setIsScrolled(true)
-      } else {
-        setIsScrolled(false)
-      }
+      setIsScrolled(window.scrollY >= 40)
     }
 
     window.addEventListener('scroll', changeBackground)
-    return () => {
-      window.removeEventListener('scroll', changeBackground)
-    }
+    return () => window.removeEventListener('scroll', changeBackground)
   }, [])
 
-  // Scroll direction detection to help unfreeze navbar
-  useEffect(() => {
-    let lastScrollTop = window.scrollY || document.documentElement.scrollTop
+  // Update slider position based on what's currently showing
+  const updateSliderPosition = useCallback((index: number) => {
+    const currentItem = navItemsRef.current[index]
+    if (!currentItem) return
 
-    const handleScroll = () => {
-      const scrollTop = window.scrollY || document.documentElement.scrollTop
+    const rect = currentItem.getBoundingClientRect()
+    const parentRect = currentItem.parentElement?.getBoundingClientRect()
+    if (!parentRect) return
 
-      // If we were in a disabled observer state and direction changed, re-enable
-      if (!observerEnabledRef.current) {
-        // Direction changed or significant scroll occurred
-        if (
-          (scrollTop < lastScrollTop && lastScrollTop - scrollTop > 10) ||
-          (scrollTop > lastScrollTop && scrollTop - lastScrollTop > 10)
-        ) {
-          observerEnabledRef.current = true
-        }
-      }
-
-      lastScrollTop = scrollTop
-    }
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+    const extraPadding = 16
+    setSliderStyle({
+      width: `${Math.round(rect.width + extraPadding)}px`,
+      left: `${Math.round(rect.left - parentRect.left - extraPadding / 2)}px`,
+    })
   }, [])
 
-  // Intersection Observer for section detection
+  // Handle window resize
   useEffect(() => {
+    const handleResize = () => {
+      // Determine which item to show based on state hierarchy:
+      // 1. Hovered item takes precedence when present
+      // 2. During manual navigation, show the clicked item
+      // 3. Otherwise, show the active section from scroll
+      const indexToShow =
+        hoveredItem !== null
+          ? hoveredItem
+          : isManualNavRef.current
+          ? clickedItem
+          : activeSection
+
+      updateSliderPosition(indexToShow)
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [hoveredItem, clickedItem, activeSection, updateSliderPosition])
+
+  // Intersection Observer to detect which section is visible
+  useEffect(() => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+
     const options = {
       root: null,
-      rootMargin: '-20% 0px -20% 0px',
-      threshold: [0.1, 0.25, 0.5, 0.75],
+      rootMargin: isMobile ? '-15% 0px -15% 0px' : '-20% 0px -20% 0px',
+      threshold: isMobile
+        ? [0.05, 0.1, 0.2, 0.3, 0.4, 0.5]
+        : [0.1, 0.25, 0.5, 0.75],
     }
 
     const sectionRefs = [
@@ -132,10 +111,10 @@ export function Navbar({
     let visibleSections = new Map()
 
     const handleIntersection = (entries: IntersectionObserverEntry[]) => {
-      // Skip updates if manual scrolling just happened
-      if (!observerEnabledRef.current) return
+      // Skip updates during manual navigation
+      if (isManualNavRef.current) return
 
-      // Process intersection entries
+      // Process entries
       entries.forEach((entry) => {
         const targetIndex = sectionRefs.find(
           (section) => section.ref === entry.target
@@ -157,14 +136,22 @@ export function Navbar({
           [0, 0]
         )
 
-        // Only update if different from current active
-        if (mostVisibleSection !== activeLink) {
-          setActiveLink(mostVisibleSection)
-          updateSliderStyle(mostVisibleSection)
+        // Only update if different from current active section
+        if (mostVisibleSection !== activeSection) {
+          setActiveSection(mostVisibleSection)
+
+          // Only update slider if not hovering and not in manual nav
+          if (hoveredItem === null && !isManualNavRef.current) {
+            updateSliderPosition(mostVisibleSection)
+          }
         }
       } else if (window.scrollY === 0) {
-        setActiveLink(0)
-        updateSliderStyle(0)
+        setActiveSection(0)
+
+        // Only update slider if not hovering and not in manual nav
+        if (hoveredItem === null && !isManualNavRef.current) {
+          updateSliderPosition(0)
+        }
       }
     }
 
@@ -185,95 +172,132 @@ export function Navbar({
     experienceRef,
     projectsRef,
     contactRef,
-    updateSliderStyle,
-    activeLink,
+    updateSliderPosition,
+    activeSection,
+    hoveredItem,
   ])
 
-  // Handle navigation link clicks
-  const handleLinkClick = (index: number) => {
-    // If we're already on this section, avoid unnecessary updates to prevent glitches
-    if (activeLink === index) {
+  // Function to handle nav item clicks with clear separation from scroll detection
+  const handleItemClick = (index: number) => {
+    // Skip if already on this section
+    if (clickedItem === index && activeSection === index && clickedItem !== -1)
       return
-    }
 
-    setActiveLink(index)
+    // Set clicked state (styling will follow hover state that's already active)
+    setClickedItem(index)
 
-    // Temporarily disable observer when clicking
-    observerEnabledRef.current = false
+    // Set manual navigation mode - this blocks scroll detection updates
+    isManualNavRef.current = true
 
-    // Re-enable observer after scroll animation completes
-    // and add a backup to make sure it eventually gets re-enabled
-    const timeoutDuration = 800
-    setTimeout(() => {
-      observerEnabledRef.current = true
-    }, timeoutDuration)
+    // No need to update slider position - it's already positioned by hover
 
-    // Create a persistent check to re-enable if still disabled after longer period
-    setTimeout(() => {
-      if (!observerEnabledRef.current) {
-        observerEnabledRef.current = true
-      }
-    }, timeoutDuration * 2)
+    // Scroll to section - this will trigger scroll events, but we're ignoring them
+    const targetRef = [
+      homeRef,
+      aboutRef,
+      experienceRef,
+      projectsRef,
+      contactRef,
+    ][index]
+    scrollToSection(targetRef)
 
-    switch (index) {
-      case 0:
-        scrollToSection(homeRef)
-        break
-      case 1:
-        scrollToSection(aboutRef)
-        break
-      case 2:
-        scrollToSection(experienceRef)
-        break
-      case 3:
-        scrollToSection(projectsRef)
-        break
-      case 4:
-        scrollToSection(contactRef)
-        break
-      default:
-        break
-    }
+    // After scrolling completes, re-enable scroll detection
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+    setTimeout(
+      () => {
+        isManualNavRef.current = false
+
+        // When re-enabling scroll detection, update active section and CLEAR clicked item
+        // This ensures we don't have duplicate active items
+        setActiveSection(index)
+        setClickedItem(index) // Initially set to match current section
+
+        // After a small delay, clear the clicked item to fully transition to scroll-based navigation
+        setTimeout(() => {
+          if (!isManualNavRef.current) {
+            // Only if we're still in scroll mode
+            setClickedItem(-1) // Use -1 to indicate no clicked item is active
+          }
+        }, 500)
+      },
+      isMobile ? 1200 : 800
+    )
   }
 
-  // Conditionally set CSS classes
+  // Determine visual state for rendering
   const navBackground = isScrolled ? 'nav-links-filled' : 'nav-links'
+
+  // Function to determine if text should be shown for an item
+  const shouldShowText = (index: number) => {
+    return (
+      hoveredItem === index ||
+      (clickedItem === index && clickedItem !== -1 && hoveredItem === null) ||
+      (activeSection === index &&
+        hoveredItem === null &&
+        (!isManualNavRef.current || clickedItem === -1))
+    )
+  }
+
+  // Function to determine if icon should show the glow effect
+  const shouldShowGlow = (index: number) => {
+    return (
+      ((activeSection === index && clickedItem === -1) ||
+        (clickedItem === index && clickedItem !== -1)) &&
+      hoveredItem !== null &&
+      hoveredItem !== index
+    )
+  }
+
+  // Update slider when hover/active/clicked state changes
+  useEffect(() => {
+    const indexToShow =
+      hoveredItem !== null
+        ? hoveredItem
+        : isManualNavRef.current
+        ? clickedItem
+        : activeSection
+
+    updateSliderPosition(indexToShow)
+  }, [hoveredItem, activeSection, clickedItem, updateSliderPosition])
 
   return (
     <div className="nav">
       <div className={navBackground}>
         {navbarData.navigator.map((nav, index) => {
           const Icon = Icons[nav.icon as keyof typeof Icons]
-          const isHovered = hoveredLink === index
-          const isActive = activeLink === index
-          const showText = isHovered || (isActive && hoveredLink === null)
-
-          // Determine if we should show the active glow
-          // Only show the glow on the active item when hovering over a different item
-          const showActiveGlow =
-            isActive && hoveredLink !== null && hoveredLink !== index
+          const isHovered = hoveredItem === index
+          const isActive =
+            activeSection === index ||
+            (clickedItem === index && clickedItem !== -1)
+          const showText = shouldShowText(index)
+          const showGlow = shouldShowGlow(index)
 
           return (
             <span
               key={index}
               ref={(el) => (navItemsRef.current[index] = el)}
-              onClick={() => handleLinkClick(index)}
+              onClick={() => handleItemClick(index)}
               onMouseEnter={() => {
-                setHoveredLink(index)
-                updateSliderStyle(index)
+                setHoveredItem(index)
+                updateSliderPosition(index)
               }}
               onMouseLeave={() => {
-                setHoveredLink(null)
-                updateSliderStyle(activeLink)
+                setHoveredItem(null)
+
+                // When leaving hover, show either clicked item or active section
+                const indexToShow = isManualNavRef.current
+                  ? clickedItem
+                  : activeSection
+                updateSliderPosition(indexToShow)
               }}
               className={`nav-links-item ${isActive ? 'active' : ''} ${
-                showActiveGlow ? 'active-glow' : ''
+                showGlow ? 'active-glow' : ''
               }`}
             >
               <div className="nav-icon-text-wrapper">
                 <Icon
                   className={`nav-icon ${showText ? 'hide' : ''} ${
-                    showActiveGlow ? 'glow' : ''
+                    showGlow ? 'glow' : ''
                   }`}
                 />
                 <span className={`nav-text ${showText ? 'show' : ''}`}>

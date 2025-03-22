@@ -21,6 +21,7 @@
   position: relative;
   padding: 4px;
   height: 46px;
+  contain: layout style;
 }
 
 .nav-links-filled {
@@ -74,20 +75,25 @@
 .nav-icon {
   position: absolute;
   font-size: 20px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* For mouse hover/normal interactions, keep animation */
+  transition: opacity 0.2s ease, transform 0.2s ease;
   opacity: 1;
   transform: scale(1);
+  will-change: opacity, transform;
+}
+
+/* When modified programmatically via classList, we want immediate changes without animation */
+.nav-icon.hide {
+  opacity: 0;
+  transform: scale(0);
 }
 
 /* Glow effect for the icon when it's the active section but another item is hovered */
 .nav-icon.glow {
-  filter: drop-shadow(0 0 3px var(--color-white));
+  filter: drop-shadow(0 0 8px var(--color-white)) brightness(1.5);
   color: var(--color-white);
-}
-
-.nav-icon.hide {
-  opacity: 0;
-  transform: scale(0);
+  opacity: 1;
+  transform: scale(1.1);
 }
 
 .nav-text {
@@ -95,14 +101,17 @@
   left: 50%;
   transform: translateX(-50%) scale(0);
   opacity: 0;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* For mouse hover/normal interactions, keep animation */
+  transition: opacity 0.2s ease, transform 0.2s ease;
   white-space: nowrap;
   pointer-events: none;
   font-size: 13px;
   padding: 0 8px;
   width: max-content;
+  will-change: opacity, transform;
 }
 
+/* When modified programmatically via classList, we want immediate changes */
 .nav-text.show {
   transform: translateX(-50%) scale(1);
   opacity: 1;
@@ -124,10 +133,13 @@
   position: absolute;
   height: 36px;
   background: var(--color-navbar-slider);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: left 0.25s ease, width 0.25s ease;
   z-index: 1;
   border-radius: 18px;
   top: 4px;
+  will-change: transform, width, left;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 .nav-slider.Home {
   transform: translateX(5px);
@@ -223,4 +235,36 @@
     height: 48px;
     border-radius: 24px;
   }
+}
+
+/* Global class to freeze all animations in the entire document */
+.freeze-animations,
+.freeze-animations * {
+  transition: none !important;
+  animation: none !important;
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  -ms-transition: none !important;
+}
+
+/* Class to completely disable ALL animations - applied during manual navigation */
+.no-animation,
+.no-animation * {
+  transition: none !important;
+  animation: none !important;
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  -ms-transition: none !important;
+  transform: none !important;
+  transition-property: none !important;
+  animation-name: none !important;
+  transform-style: flat !important;
+}
+
+/* IMPORTANT: Override transform for the nav-slider only */
+.no-animation .nav-slider {
+  transform: translateZ(0) !important;
+  transition: none !important;
 }
