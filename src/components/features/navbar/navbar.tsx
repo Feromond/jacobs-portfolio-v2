@@ -25,6 +25,8 @@ export function Navbar({
   const [hoveredLink, setHoveredLink] = useState<number | null>(null)
   const [sliderStyle, setSliderStyle] = useState<React.CSSProperties>({})
   const navItemsRef = useRef<(HTMLSpanElement | null)[]>([])
+  const manualScrollRef = useRef<boolean>(false)
+  const observerEnabledRef = useRef<boolean>(true)
 
   const updateSliderStyle = useCallback((index: number) => {
     const currentItem = navItemsRef.current[index]
@@ -61,95 +63,117 @@ export function Navbar({
     }
   }, [updateSliderStyle, hoveredLink, activeLink])
 
+  // Update slider when activeLink changes
   useEffect(() => {
     updateSliderStyle(activeLink)
   }, [activeLink, updateSliderStyle])
 
-  const changeBackground = () => {
-    if (window.scrollY >= 40) {
-      setIsScrolled(true)
-    } else {
-      setIsScrolled(false)
-    }
-  }
-
+  // Handle background change on scroll
   useEffect(() => {
+    const changeBackground = () => {
+      if (window.scrollY >= 40) {
+        setIsScrolled(true)
+      } else {
+        setIsScrolled(false)
+      }
+    }
+
     window.addEventListener('scroll', changeBackground)
     return () => {
       window.removeEventListener('scroll', changeBackground)
     }
   }, [])
 
-  // Debounced version of setActiveLink to prevent rapid updates
-  const debouncedSetActiveLink = useCallback((index: number) => {
-    const timeoutId = setTimeout(() => {
-      setActiveLink(index)
-    }, 50) // Small delay to smooth out rapid changes
+  // Scroll direction detection to help unfreeze navbar
+  useEffect(() => {
+    let lastScrollTop = window.scrollY || document.documentElement.scrollTop
 
-    return () => clearTimeout(timeoutId)
+    const handleScroll = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop
+
+      // If we were in a disabled observer state and direction changed, re-enable
+      if (!observerEnabledRef.current) {
+        // Direction changed or significant scroll occurred
+        if (
+          (scrollTop < lastScrollTop && lastScrollTop - scrollTop > 10) ||
+          (scrollTop > lastScrollTop && scrollTop - lastScrollTop > 10)
+        ) {
+          observerEnabledRef.current = true
+        }
+      }
+
+      lastScrollTop = scrollTop
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Intersection Observer for section detection
   useEffect(() => {
     const options = {
       root: null,
-      rootMargin: '-20% 0px -20% 0px', // Adjusted for better visibility detection
-      threshold: [0, 0.25, 0.5, 0.75, 1], // Multiple thresholds to track visibility better
+      rootMargin: '-20% 0px -20% 0px',
+      threshold: [0.1, 0.25, 0.5, 0.75],
     }
 
-    const sectionToIndex = new Map([
-      [homeRef.current, 0],
-      [aboutRef.current, 1],
-      [experienceRef.current, 2],
-      [projectsRef.current, 3],
-      [contactRef.current, 4],
-    ])
+    const sectionRefs = [
+      { ref: homeRef.current, index: 0 },
+      { ref: aboutRef.current, index: 1 },
+      { ref: experienceRef.current, index: 2 },
+      { ref: projectsRef.current, index: 3 },
+      { ref: contactRef.current, index: 4 },
+    ]
 
-    let visibleSections = new Map() // Track intersection ratio of each section
+    let visibleSections = new Map()
 
     const handleIntersection = (entries: IntersectionObserverEntry[]) => {
+      // Skip updates if manual scrolling just happened
+      if (!observerEnabledRef.current) return
+
+      // Process intersection entries
       entries.forEach((entry) => {
-        // Store or remove the intersection ratio for each section
-        if (entry.isIntersecting) {
-          visibleSections.set(entry.target, entry.intersectionRatio)
-        } else {
-          visibleSections.delete(entry.target)
+        const targetIndex = sectionRefs.find(
+          (section) => section.ref === entry.target
+        )?.index
+
+        if (targetIndex !== undefined) {
+          if (entry.isIntersecting) {
+            visibleSections.set(targetIndex, entry.intersectionRatio)
+          } else {
+            visibleSections.delete(targetIndex)
+          }
         }
       })
 
-      // Find the section with the highest visibility ratio
-      let maxRatio = 0
-      let mostVisibleSection = null
+      // Find most visible section
+      if (visibleSections.size > 0) {
+        const [mostVisibleSection] = [...visibleSections.entries()].reduce(
+          (max, [section, ratio]) => (ratio > max[1] ? [section, ratio] : max),
+          [0, 0]
+        )
 
-      visibleSections.forEach((ratio, section) => {
-        if (ratio > maxRatio) {
-          maxRatio = ratio
-          mostVisibleSection = section
+        // Only update if different from current active
+        if (mostVisibleSection !== activeLink) {
+          setActiveLink(mostVisibleSection)
+          updateSliderStyle(mostVisibleSection)
         }
-      })
-
-      // Update active link based on the most visible section
-      if (mostVisibleSection && sectionToIndex.has(mostVisibleSection)) {
-        debouncedSetActiveLink(sectionToIndex.get(mostVisibleSection)!)
-      } else if (visibleSections.size === 0 && window.scrollY === 0) {
-        // If no sections are visible and we're at the top, activate Home
-        debouncedSetActiveLink(0)
+      } else if (window.scrollY === 0) {
+        setActiveLink(0)
+        updateSliderStyle(0)
       }
     }
 
     const observer = new IntersectionObserver(handleIntersection, options)
 
-    if (homeRef.current) observer.observe(homeRef.current)
-    if (aboutRef.current) observer.observe(aboutRef.current)
-    if (experienceRef.current) observer.observe(experienceRef.current)
-    if (projectsRef.current) observer.observe(projectsRef.current)
-    if (contactRef.current) observer.observe(contactRef.current)
+    sectionRefs.forEach((section) => {
+      if (section.ref) observer.observe(section.ref)
+    })
 
     return () => {
-      if (homeRef.current) observer.unobserve(homeRef.current)
-      if (aboutRef.current) observer.unobserve(aboutRef.current)
-      if (experienceRef.current) observer.unobserve(experienceRef.current)
-      if (projectsRef.current) observer.unobserve(projectsRef.current)
-      if (contactRef.current) observer.unobserve(contactRef.current)
+      sectionRefs.forEach((section) => {
+        if (section.ref) observer.unobserve(section.ref)
+      })
     }
   }, [
     homeRef,
@@ -157,15 +181,31 @@ export function Navbar({
     experienceRef,
     projectsRef,
     contactRef,
-    debouncedSetActiveLink,
+    updateSliderStyle,
+    activeLink,
   ])
 
-  // Conditionally set CSS classes based on state
-  const navBackground = isScrolled ? 'nav-links-filled' : 'nav-links'
-
-  // Handle navigation link clicks to scroll to sections
+  // Handle navigation link clicks
   const handleLinkClick = (index: number) => {
     setActiveLink(index)
+
+    // Temporarily disable observer when clicking
+    observerEnabledRef.current = false
+
+    // Re-enable observer after scroll animation completes
+    // and add a backup to make sure it eventually gets re-enabled
+    const timeoutDuration = 800
+    setTimeout(() => {
+      observerEnabledRef.current = true
+    }, timeoutDuration)
+
+    // Create a persistent check to re-enable if still disabled after longer period
+    setTimeout(() => {
+      if (!observerEnabledRef.current) {
+        observerEnabledRef.current = true
+      }
+    }, timeoutDuration * 2)
+
     switch (index) {
       case 0:
         scrollToSection(homeRef)
@@ -186,6 +226,9 @@ export function Navbar({
         break
     }
   }
+
+  // Conditionally set CSS classes
+  const navBackground = isScrolled ? 'nav-links-filled' : 'nav-links'
 
   return (
     <div className="nav">
