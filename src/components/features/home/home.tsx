@@ -65,7 +65,7 @@ const Home = React.forwardRef<HTMLDivElement>((props, ref) => {
           <MotionBlock className="four-line-prevention-V3" delay={1.2} />
         </MotionBlock>
         <MotionBlock className="name" delay={0.4}>
-          <MotionBlock as="h1" className="title" delay={0.8}>
+          <MotionBlock as="h1" className="title shine-effect" delay={0.8}>
             Jacob Mish
           </MotionBlock>
           <MotionBlock as="h2" className="subtitle" delay={0.8}>
