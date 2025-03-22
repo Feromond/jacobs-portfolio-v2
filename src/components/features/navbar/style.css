@@ -55,6 +55,12 @@
   width: auto;
   height: 36px;
 }
+
+/* New active glow class when another item is hovered */
+.nav-links-item.active-glow {
+  color: var(--color-white);
+}
+
 .nav-icon-text-wrapper {
   display: flex;
   align-items: center;
@@ -71,6 +77,12 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   opacity: 1;
   transform: scale(1);
+}
+
+/* Glow effect for the icon when it's the active section but another item is hovered */
+.nav-icon.glow {
+  filter: drop-shadow(0 0 3px var(--color-white));
+  color: var(--color-white);
 }
 
 .nav-icon.hide {

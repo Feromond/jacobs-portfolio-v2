@@ -36,9 +36,13 @@ export function Navbar({
       if (parentRect) {
         // Add extra padding to ensure text fits comfortably
         const extraPadding = 16
+
+        // Set the slider style with values rounded to prevent sub-pixel rendering issues
         setSliderStyle({
-          width: `${rect.width + extraPadding}px`,
-          left: `${rect.left - parentRect.left - extraPadding / 2}px`,
+          width: `${Math.round(rect.width + extraPadding)}px`,
+          left: `${Math.round(
+            rect.left - parentRect.left - extraPadding / 2
+          )}px`,
         })
       }
     }
@@ -187,6 +191,11 @@ export function Navbar({
 
   // Handle navigation link clicks
   const handleLinkClick = (index: number) => {
+    // If we're already on this section, avoid unnecessary updates to prevent glitches
+    if (activeLink === index) {
+      return
+    }
+
     setActiveLink(index)
 
     // Temporarily disable observer when clicking
@@ -239,6 +248,11 @@ export function Navbar({
           const isActive = activeLink === index
           const showText = isHovered || (isActive && hoveredLink === null)
 
+          // Determine if we should show the active glow
+          // Only show the glow on the active item when hovering over a different item
+          const showActiveGlow =
+            isActive && hoveredLink !== null && hoveredLink !== index
+
           return (
             <span
               key={index}
@@ -252,10 +266,16 @@ export function Navbar({
                 setHoveredLink(null)
                 updateSliderStyle(activeLink)
               }}
-              className={`nav-links-item ${isActive ? 'active' : ''}`}
+              className={`nav-links-item ${isActive ? 'active' : ''} ${
+                showActiveGlow ? 'active-glow' : ''
+              }`}
             >
               <div className="nav-icon-text-wrapper">
-                <Icon className={`nav-icon ${showText ? 'hide' : ''}`} />
+                <Icon
+                  className={`nav-icon ${showText ? 'hide' : ''} ${
+                    showActiveGlow ? 'glow' : ''
+                  }`}
+                />
                 <span className={`nav-text ${showText ? 'show' : ''}`}>
                   {nav.name}
                 </span>
