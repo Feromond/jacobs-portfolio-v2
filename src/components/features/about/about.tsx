@@ -1,9 +1,13 @@
 import React from 'react'
 import { Headings } from '../../core/headings/headings'
 import resumePDF from '../../../assets/Jacob_Mish_Resume.pdf'
+import { skills } from '../../../library/data'
 import './style.css'
 
 const About = React.forwardRef<HTMLDivElement>((props, ref) => {
+  // Create a doubled array of skills for seamless looping
+  const duplicatedSkills = [...skills, ...skills]
+
   return (
     <div ref={ref} className="about-section">
       <Headings title="About" subtitle="Hi, I'm Jacob." />
@@ -50,6 +54,35 @@ const About = React.forwardRef<HTMLDivElement>((props, ref) => {
           to chat!
         </p>
       </p>
+
+      {/* Skills Carousel - Horizontal Flow */}
+      <div className="skills-carousel-container">
+        <h3 className="skills-heading">Technical Skills</h3>
+        <div className="skills-flow">
+          <div className="skills-track">
+            {duplicatedSkills.map((skill, index) => (
+              <div className="skill-item" key={`top-${index}`}>
+                <div className="skill-name">{skill.name}</div>
+                <div className="skill-category">{skill.category}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Second track going in reverse direction */}
+        <div className="skills-flow">
+          <div className="skills-track">
+            {/* Shuffle the skills array for visual variety */}
+            {[...duplicatedSkills].reverse().map((skill, index) => (
+              <div className="skill-item" key={`bottom-${index}`}>
+                <div className="skill-name">{skill.name}</div>
+                <div className="skill-category">{skill.category}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <div className="resume-download">
         <a href={resumePDF} download>
           <button className="download-button">Download Resume</button>

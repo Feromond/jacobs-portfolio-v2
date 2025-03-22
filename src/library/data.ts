@@ -127,7 +127,7 @@ export const experiences = [
       'Utilized LLM Transformers to create a Q&A chatbot with contextual knowledge of company HR documentation.',
       'Utilize various REST APIs to collect data, automate tasks, and gather insights for business intelligence purposes.',
       'Design and develop curated tables from raw data to provide valuable insights for various teams across the organization.',
-      'Create automated workflows (ETL’s) for efficient data collection, cleaning, and transformation, generating curated data ready for analysis and visualization.',
+      'Create automated workflows (ETLs) for efficient data collection, cleaning, and transformation, generating curated data ready for analysis and visualization.',
       'Optimize cloud compute costs by configuring ideal settings for specific tasks and improving script runtime efficiency.',
       'Implement data validation, data transformation, and data quality checks to ensure data consistency and accuracy.',
       'Stay current with industry trends and best practices in data engineering and technologies to continuously improve data infrastructure and workflows.',
@@ -167,7 +167,7 @@ export const experiences = [
     duration: 'December 2020 – February 2022',
     description: [
       'Published and presented as primary speaker at EAGE Edinburgh',
-      'Used Machine Learning / Convolutional Neural Networks (CNN’s) from Python Tensorflow to Detect Near Surface Geohazards from Distributed Acoustic Sensing (DAS) Data',
+      'Used Machine Learning / Convolutional Neural Networks (CNNs) from Python Tensorflow to Detect Near Surface Geohazards from Distributed Acoustic Sensing (DAS) Data',
       'Utilized signal processing techniques to filter and process raw data',
       'Worked with AWS cloud computing to store and handle large data volumes',
       'Generated figures and graphics to display analysis and results',
@@ -187,3 +187,71 @@ export const navbarData = {
     { name: 'Contact', icon: 'Mail' },
   ],
 }
+
+export const skills = [
+  // Programming Languages
+  { name: 'Python', category: 'Programming' },
+  { name: 'TypeScript', category: 'Programming' },
+  { name: 'JavaScript', category: 'Programming' },
+  { name: 'Rust', category: 'Programming' },
+  { name: 'SQL', category: 'Programming' },
+  { name: 'PHP/Hack', category: 'Programming' },
+  { name: 'Go', category: 'Programming' },
+  { name: 'Java', category: 'Programming' },
+  { name: 'Swift', category: 'Programming' },
+
+  // Frontend
+  { name: 'React', category: 'Frontend' },
+  { name: 'React Native', category: 'Frontend' },
+  { name: 'HTML/CSS', category: 'Frontend' },
+  { name: 'Framer Motion', category: 'Frontend' },
+
+  // Backend
+  { name: 'Node.js', category: 'Backend' },
+  { name: 'REST APIs', category: 'Backend' },
+  { name: 'Flask', category: 'Backend' },
+  { name: 'GraphQL', category: 'Backend' },
+
+  // Data Science & ML
+  { name: 'Machine Learning', category: 'Data Science' },
+  { name: 'TensorFlow', category: 'Data Science' },
+  { name: 'PyTorch', category: 'Data Science' },
+  { name: 'Data Visualization', category: 'Data Science' },
+  { name: 'LLM Transformers', category: 'Data Science' },
+  { name: 'NLP', category: 'Data Science' },
+  { name: 'Recommender Systems', category: 'Data Science' },
+  { name: 'Signal Processing', category: 'Data Science' },
+
+  // Database
+  { name: 'PostgreSQL', category: 'Database' },
+  { name: 'Databricks SQL', category: 'Database' },
+  { name: 'Microsoft SQL Server', category: 'Database' },
+  { name: 'Oracle SQL', category: 'Database' },
+
+  // Cloud & DevOps
+  { name: 'AWS', category: 'Cloud' },
+  { name: 'Azure', category: 'Cloud' },
+  { name: 'Docker', category: 'DevOps' },
+  { name: 'Git/GitHub', category: 'DevOps' },
+  { name: 'Azure DevOps', category: 'DevOps' },
+  { name: 'GitLab', category: 'DevOps' },
+  { name: 'Firebase', category: 'Cloud' },
+
+  // Data Engineering
+  { name: 'ETL Pipelines', category: 'Data Engineering' },
+  { name: 'Databricks', category: 'Data Engineering' },
+  { name: 'Data Validation', category: 'Data Engineering' },
+  { name: 'Data Transformation', category: 'Data Engineering' },
+
+  // Visualization
+  { name: 'Plotly', category: 'Visualization' },
+  { name: 'Matplotlib', category: 'Visualization' },
+  { name: 'Seaborn', category: 'Visualization' },
+  { name: 'Tableau', category: 'Visualization' },
+  { name: 'PowerBI', category: 'Visualization' },
+
+  // Tools & Frameworks
+  { name: 'Streamlit', category: 'Framework' },
+  { name: 'Azure ML Studio', category: 'Tool' },
+  { name: 'SSO Authentication', category: 'Security' },
+]

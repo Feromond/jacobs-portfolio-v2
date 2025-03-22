@@ -128,3 +128,209 @@
   position: relative;
   z-index: -1;
 }
+
+/* Skills Carousel Styles - Horizontal Flow */
+.skills-carousel-container {
+  margin: 40px -20px;
+  max-width: calc(100% + 40px);
+  padding: 20px 0;
+  position: relative;
+  overflow: visible;
+}
+
+.skills-carousel-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  transition: 0.7s;
+  animation: shine-effect 10s infinite;
+}
+
+.skills-heading {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-white);
+  position: relative;
+  display: inline-block;
+  padding-bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.skills-heading::after {
+  content: '';
+  position: absolute;
+  width: 50%;
+  height: 3px;
+  background: linear-gradient(to right, transparent, #9d4edd, transparent);
+  bottom: 0;
+  left: 25%;
+  border-radius: 2px;
+}
+
+.skills-flow {
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  min-height: 80px;
+  margin: 12px 0;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+/* Add space between rows */
+.skills-flow:nth-child(2) {
+  margin-top: 10px;
+}
+
+.skills-track {
+  display: flex;
+  animation: flow-track 100s linear infinite;
+  padding: 5px 0;
+}
+
+.skill-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 180px;
+  height: 80px;
+  margin: 0 15px;
+  padding: 8px 20px;
+  background: rgba(25, 25, 30, 0.7);
+  backdrop-filter: blur(5px);
+  border-radius: 12px;
+  border: 1px solid rgba(157, 78, 221, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  text-align: center;
+}
+
+.skill-item:hover {
+  transform: translateY(-6px);
+  border-color: #9d4edd;
+  box-shadow: 0 10px 25px rgba(157, 78, 221, 0.25);
+  background: rgba(30, 30, 40, 0.85);
+}
+
+.skill-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.skill-item:hover::before {
+  left: 100%;
+}
+
+.skill-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #cb1ab1;
+  margin-bottom: 6px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.skill-category {
+  font-size: 13px;
+  color: #34cee5;
+  font-style: italic;
+  opacity: 0.9;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+/* Animation direction for second row */
+.skills-flow:nth-child(2) .skills-track {
+  animation-direction: reverse;
+}
+
+@keyframes flow-track {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Shine Animation Keyframes */
+@keyframes shine-effect {
+  0% {
+    left: -100%;
+  }
+  20% {
+    left: 100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Media Queries for Carousel Responsiveness */
+@media screen and (max-width: 768px) {
+  .skills-carousel-container {
+    padding: 15px 0;
+    margin: 30px -20px;
+  }
+
+  .skills-heading {
+    font-size: 22px;
+    margin-bottom: 15px;
+  }
+
+  .skills-flow {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+
+  .skills-flow:nth-child(2) {
+    margin-top: 8px;
+  }
+
+  .skill-item {
+    min-width: 140px;
+    height: 75px;
+    margin: 0 10px;
+    padding: 6px 15px;
+  }
+
+  .skill-name {
+    font-size: 16px;
+  }
+
+  .skill-category {
+    font-size: 11px;
+  }
+}
