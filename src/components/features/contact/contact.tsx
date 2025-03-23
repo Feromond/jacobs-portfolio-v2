@@ -7,7 +7,7 @@ const Contact = React.forwardRef<HTMLDivElement>((props, ref) => {
     <div ref={ref} className="contact">
       <Headings title="Contact" subtitle="How to reach me" />
       <div className="contact-text">
-        The fastest way to get in touch with me is to send me a message on{' '}
+        The fastest way to get in touch with me is to send me a message on{''}
         <a
           href="https://www.linkedin.com/in/jacob-mish-25915722a/"
           target="_blank"
@@ -15,7 +15,7 @@ const Contact = React.forwardRef<HTMLDivElement>((props, ref) => {
         >
           LinkedIn
         </a>{' '}
-        or an{' '}
+        or an{''}
         <a href="mailto:jacobpmish@gmail.com" target="_blank" rel="noreferrer">
           Email
         </a>

@@ -5,18 +5,48 @@
   color: var(--color-light-gray);
 }
 
-.contact-text a,
-.contact-text:visited,
-.contact-text a::after {
-  color: var(--color-green);
+.contact-text a {
+  font-weight: 600;
+  font-size: calc(18 / 16 * 1rem);
+  margin: 0 1px 0 3px;
+  padding: 0 0px 0 5px;
+  position: relative;
+  display: inline-block;
+  color: var(--color-white);
+  transition: all 0.2s ease;
+}
+
+.contact-text a:after {
+  content: '';
+  display: block;
+  width: 95%;
+  height: 4px;
+  background-color: var(--color-green);
+  position: absolute;
+  opacity: 0.6;
+  bottom: 20%;
+  z-index: -1;
+  transition: all 0.2s ease;
+  border-radius: 1px;
 }
 
 .contact-text a:hover {
-  text-decoration: underline;
+  color: var(--color-obstian);
+}
+
+.contact-text a:hover::after {
+  height: 20px;
+  opacity: 1;
 }
 
 @media screen and (max-width: 745px) {
   .contact-text {
+    line-height: 1.5;
+    font-size: 1rem;
+  }
+
+  .contact-text a {
+    padding: 0;
     line-height: 1.5;
     font-size: 1rem;
   }
