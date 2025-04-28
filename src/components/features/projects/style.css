@@ -8,6 +8,7 @@
   grid-gap: 2rem;
   grid-template-columns: repeat(3, 1fr);
   margin-bottom: 40px;
+  min-height: 42rem;
 }
 
 .projects-card {
@@ -25,31 +26,31 @@
   overflow: hidden;
 }
 
-.projects-card:first-child {
+.gradient-a {
   background-image: var(--color-gradient-a);
 }
-.projects-card:nth-child(2) {
+.gradient-b {
   background-image: var(--color-gradient-b);
 }
-.projects-card:nth-child(3) {
+.gradient-c {
   background-image: var(--color-gradient-c);
 }
-.projects-card:nth-child(4) {
+.gradient-d {
   background-image: var(--color-gradient-d);
 }
-.projects-card:nth-child(5) {
+.gradient-e {
   background-image: var(--color-gradient-e);
 }
-.projects-card:nth-child(6) {
+.gradient-f {
   background-image: var(--color-gradient-f);
 }
-.projects-card:nth-child(7) {
+.gradient-g {
   background-image: var(--color-gradient-g);
 }
-.projects-card:nth-child(8) {
+.gradient-h {
   background-image: var(--color-gradient-h);
 }
-.projects-card:nth-child(9) {
+.gradient-i {
   background-image: var(--color-gradient-i);
 }
 
@@ -113,20 +114,64 @@
   transition: color 0.2s ease;
 }
 
-@media screen and (min-width: 1024px) {
-  .projects-card:hover {
-    border: 1px solid var(--color-white);
+.projects-card:hover {
+  border: 1px solid var(--color-white);
+  background-color: transparent;
+  background-image: none;
+  transform: scale(1.025);
+}
+
+.projects-card:hover * {
+  color: var(--color-white);
+}
+
+.projects-card:hover .project-screenshot {
+  opacity: 0.4;
+}
+
+@media screen and (min-width: 1001px) {
+  .projects-grid {
+    min-height: 42rem;
+  }
+
+  .projects-view-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  .pagination-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
     background-color: transparent;
-    background-image: none;
-    transform: scale(1.025);
+    border: none;
+    color: var(--color-light-gray);
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    z-index: 10;
   }
 
-  .projects-card:hover * {
+  .pagination-arrow svg {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+
+  .pagination-arrow:hover {
+    background-color: transparent;
     color: var(--color-white);
+    border-color: transparent;
   }
 
-  .projects-card:hover .project-screenshot {
-    opacity: 0.4;
+  .prev-arrow {
+    left: -2rem;
+  }
+
+  .next-arrow {
+    right: -2rem;
   }
 }
 
