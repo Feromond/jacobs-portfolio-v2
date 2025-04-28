@@ -7,7 +7,7 @@ import './style.css'
 const Projects = React.forwardRef<HTMLDivElement>((props, ref) => {
   return (
     <div ref={ref} className="projects">
-      <Headings title="Projects" subtitle="Stuff I’ve Worked On" />
+      <Headings title="Projects" subtitle="Stuff I've Worked On" />
       <div className="projects-grid">
         {projects.map((project) => (
           <a
@@ -17,6 +17,14 @@ const Projects = React.forwardRef<HTMLDivElement>((props, ref) => {
             key={project.title}
             rel="noreferrer"
           >
+            {project.screenshotImage && (
+              <div className="project-screenshot">
+                <img
+                  src={project.screenshotImage}
+                  alt={`${project.title} screenshot`}
+                />
+              </div>
+            )}
             <div className="project-link">
               <a
                 target={'_blank'}

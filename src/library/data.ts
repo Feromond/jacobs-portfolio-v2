@@ -5,30 +5,42 @@ import altaMlLogo from '../assets/altaml-logo.png'
 import circuitStreamLogo from '../assets/circuitstreamlogo.png'
 import uOfCLogo from '../assets/uofcLogo.png'
 import metaLogo from '../assets/meta_logo_black.svg'
+import budgetTrackerTuiScreenshot from '../assets/budget_tracker_tui_screenshot.png'
+import portfolioWebsiteScreenshot from '../assets/portfolio_website_screenshot.png'
+import rustSnakeGameScreenshot from '../assets/snake_game_screenshot.png'
+import mlPipelineScreenshot from '../assets/ml_pipeline_screenshot.jpg'
+import oldPortfolioScreenshot from '../assets/old_portfolio_screenshot.png'
+import fftScreenshot from '../assets/fft_filtering_screenshot.png'
+import extractFiletypeZipScreenshot from '../assets/extractfiletype_gui_screenshot.png'
+import hypixelBazaarApiScreenshot from '../assets/hypixel_bazaar_api_screenshot.png'
 
 export const projects = [
   {
     title: 'Budget Tracker TUI',
     githubUrl: 'https://github.com/Feromond/budget_tracker_tui',
-    externalUrl: '',
+    externalUrl: 'https://github.com/Feromond/budget_tracker_tui/releases',
+    screenshotImage: budgetTrackerTuiScreenshot,
     languages: ['Rust', 'TUI', 'Finance', 'CLI'],
   },
   {
     title: 'My Portfolio Website',
     githubUrl: 'https://github.com/Feromond/jacobs-portfolio-v2',
     externalUrl: 'https://JacobMish.com',
+    screenshotImage: portfolioWebsiteScreenshot,
     languages: ['React', 'TypeScript', 'CSS', 'Framer Motion'],
   },
   {
     title: 'Rust Snake Game',
     githubUrl: 'https://github.com/Feromond/rust_snake_game',
     externalUrl: 'https://github.com/Feromond/rust_snake_game/releases',
+    screenshotImage: rustSnakeGameScreenshot,
     languages: ['Rust', 'GGEZ'],
   },
   {
     title: 'Machine Learning Pipeline',
     githubUrl: 'https://github.com/zamaniali1995/ml-pipeline',
     // externalUrl: '',
+    screenshotImage: mlPipelineScreenshot,
     languages: ['Python', 'Flask', 'Sklearn', 'Scipy', 'Pandas'],
   },
 
@@ -36,32 +48,38 @@ export const projects = [
     title: 'My Legacy Portfolio Website',
     githubUrl: 'https://github.com/Feromond/jacob-mish-portfolio',
     externalUrl: 'https://jacobmish-old.netlify.app',
+    screenshotImage: oldPortfolioScreenshot,
     languages: ['React', 'Javascript', 'Material UI'],
   },
 
   {
     title: 'Hypixel-API-Lib',
     githubUrl: 'https://github.com/Feromond/hypixel-api-lib',
-    externalUrl: '',
+    // externalUrl: '',
+    // screenshotImage: '',
     languages: ['Python', 'Hypixel Api', 'Library', 'OOP'],
   },
   {
     title: 'Filtering Techniques',
     githubUrl: 'https://github.com/Feromond/FilteringTechniques',
-    externalUrl: '',
+    // externalUrl: '',
+    screenshotImage: fftScreenshot,
     languages: ['Python', 'Numpy', 'Signal Processing'],
   },
 
   {
     title: 'Extract Filetype from ZIP GUI',
     githubUrl: 'https://github.com/Feromond/extract_filetype_from_zip_gui',
-    externalUrl: '',
+    externalUrl:
+      'https://github.com/Feromond/extract_filetype_from_zip_gui/releases',
+    screenshotImage: extractFiletypeZipScreenshot,
     languages: ['Rust', 'GUI', 'File Extraction', 'ZIP'],
   },
   {
     title: 'Hypixel Bazaar API',
     githubUrl: 'https://github.com/Feromond/hypixel-bazaar-api',
-    externalUrl: '',
+    externalUrl: 'https://github.com/Feromond/hypixel-bazaar-api/releases',
+    screenshotImage: hypixelBazaarApiScreenshot,
     languages: ['Rust', 'API', 'Hypixel', 'Data Analysis'],
   },
 ]
