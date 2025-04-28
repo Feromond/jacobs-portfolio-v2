@@ -38,8 +38,17 @@
 .projects-card:nth-child(5) {
   background-image: var(--color-gradient-e);
 }
-.projects-card:last-child {
+.projects-card:nth-child(6) {
   background-image: var(--color-gradient-f);
+}
+.projects-card:nth-child(7) {
+  background-image: var(--color-gradient-g);
+}
+.projects-card:nth-child(8) {
+  background-image: var(--color-gradient-h);
+}
+.projects-card:nth-child(9) {
+  background-image: var(--color-gradient-i);
 }
 
 .project-link {
