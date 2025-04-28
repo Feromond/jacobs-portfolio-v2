@@ -18,7 +18,8 @@
   position: relative;
   flex-direction: column;
   color: var(--color-body);
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, border-color 0.2s ease,
+    background-color 0.2s ease;
   justify-content: space-between;
   border: 1px solid var(--color-body);
   overflow: hidden;
@@ -86,6 +87,7 @@
   font-size: 1.5rem;
   margin-left: 10px;
   color: var(--color-body);
+  transition: color 0.2s ease;
 }
 
 .project-name {
@@ -94,6 +96,7 @@
   text-align: center;
   position: relative;
   z-index: 2;
+  transition: color 0.2s ease;
 }
 
 .project-wrapper,
@@ -107,6 +110,7 @@
 .project-language span {
   font-weight: 500;
   font-size: 0.9rem;
+  transition: color 0.2s ease;
 }
 
 @media screen and (min-width: 1024px) {
@@ -114,7 +118,7 @@
     border: 1px solid var(--color-white);
     background-color: transparent;
     background-image: none;
-    scale: 1.025;
+    transform: scale(1.025);
   }
 
   .projects-card:hover * {
