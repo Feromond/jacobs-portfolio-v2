@@ -8,10 +8,10 @@ import metaLogo from '../assets/meta_logo_black.svg'
 
 export const projects = [
   {
-    title: 'Machine Learning Pipeline',
-    githubUrl: 'https://github.com/zamaniali1995/ml-pipeline',
-    // externalUrl: '',
-    languages: ['Python', 'Flask', 'Sklearn', 'Scipy', 'Pandas'],
+    title: 'Budget Tracker TUI',
+    githubUrl: 'https://github.com/Feromond/budget_tracker_tui',
+    externalUrl: '',
+    languages: ['Rust', 'TUI', 'Finance', 'CLI'],
   },
   {
     title: 'My Portfolio Website',
@@ -20,17 +20,25 @@ export const projects = [
     languages: ['React', 'TypeScript', 'CSS', 'Framer Motion'],
   },
   {
-    title: 'My Legacy Portfolio Website',
-    githubUrl: 'https://github.com/Feromond/jacob-mish-portfolio',
-    externalUrl: 'https://jacobmish-old.netlify.app',
-    languages: ['React', 'Javascript', 'Material UI'],
-  },
-  {
     title: 'Rust Snake Game',
     githubUrl: 'https://github.com/Feromond/rust_snake_game',
     externalUrl: 'https://github.com/Feromond/rust_snake_game/releases',
     languages: ['Rust', 'GGEZ'],
   },
+  {
+    title: 'Machine Learning Pipeline',
+    githubUrl: 'https://github.com/zamaniali1995/ml-pipeline',
+    // externalUrl: '',
+    languages: ['Python', 'Flask', 'Sklearn', 'Scipy', 'Pandas'],
+  },
+
+  {
+    title: 'My Legacy Portfolio Website',
+    githubUrl: 'https://github.com/Feromond/jacob-mish-portfolio',
+    externalUrl: 'https://jacobmish-old.netlify.app',
+    languages: ['React', 'Javascript', 'Material UI'],
+  },
+
   {
     title: 'Hypixel-API-Lib',
     githubUrl: 'https://github.com/Feromond/hypixel-api-lib',
@@ -43,12 +51,19 @@ export const projects = [
     externalUrl: '',
     languages: ['Python', 'Numpy', 'Signal Processing'],
   },
-  // {
-  //   title: 'Fast Fourier Transform In Rust',
-  //   githubUrl: 'https://github.com/Feromond/fft_rust',
-  //   externalUrl: '',
-  //   languages: ['Rust', 'Python', 'Streamlit'],
-  // },
+
+  {
+    title: 'Extract Filetype from ZIP GUI',
+    githubUrl: 'https://github.com/Feromond/extract_filetype_from_zip_gui',
+    externalUrl: '',
+    languages: ['Rust', 'GUI', 'File Extraction', 'ZIP'],
+  },
+  {
+    title: 'Hypixel Bazaar API',
+    githubUrl: 'https://github.com/Feromond/hypixel-bazaar-api',
+    externalUrl: '',
+    languages: ['Rust', 'API', 'Hypixel', 'Data Analysis'],
+  },
 ]
 
 export const publications = [
