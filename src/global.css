@@ -15,6 +15,9 @@
   --color-gradient-d: linear-gradient(-20deg, #ffe9a6, #b6ffe5);
   --color-gradient-e: linear-gradient(-40deg, #cab8ff, #ffe7f5);
   --color-gradient-f: linear-gradient(90deg, #ffe7f5, #d5f3ff);
+  --color-gradient-g: linear-gradient(-30deg, #a8e6cf, #dcedc1);
+  --color-gradient-h: linear-gradient(-50deg, #ffd3b6, #ffaaa5);
+  --color-gradient-i: linear-gradient(-60deg, #e6a8a8, #a8c1e6);
   ---color-code-a: linear-gradient(90deg, #819bf7 0%, #4dffd5 100%);
   ---color-code-b: linear-gradient(90deg, #ffe9a6 0%, #ff7373 100%);
   ---color-code-c: linear-gradient(90deg, #f3a6ff 0%, #a3afff 100%);
