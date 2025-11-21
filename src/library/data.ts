@@ -13,6 +13,9 @@ import oldPortfolioScreenshot from '../assets/old_portfolio_screenshot.png'
 import fftScreenshot from '../assets/fft_filtering_screenshot.png'
 import extractFiletypeZipScreenshot from '../assets/extractfiletype_gui_screenshot.png'
 import hypixelBazaarApiScreenshot from '../assets/hypixel_bazaar_api_screenshot.png'
+import hypixelBazaarTuiScreenshot from '../assets/hypixel-bazaar-tui.png'
+import connectFourSolverScreenshot from '../assets/connect_four_solver_screenshot.png'
+import ventraBotScreenshot from '../assets/ventra-bot.png'
 
 export const projects = [
   {
@@ -43,21 +46,40 @@ export const projects = [
     screenshotImage: mlPipelineScreenshot,
     languages: ['Python', 'Flask', 'Sklearn', 'Scipy', 'Pandas'],
   },
-
   {
-    title: 'My Legacy Portfolio Website',
-    githubUrl: 'https://github.com/Feromond/jacob-mish-portfolio',
-    externalUrl: 'https://jacobmish-old.netlify.app',
-    screenshotImage: oldPortfolioScreenshot,
-    languages: ['React', 'Javascript', 'Material UI'],
+    title: 'Connect Four Solver',
+    githubUrl: 'https://github.com/Feromond/connect_four_solver',
+    externalUrl: 'https://github.com/Feromond/connect_four_solver/releases',
+    screenshotImage: connectFourSolverScreenshot,
+    languages: ['Rust', 'AI', 'Minimax', 'GUI'],
   },
-
   {
     title: 'Hypixel-API-Lib',
     githubUrl: 'https://github.com/Feromond/hypixel-api-lib',
     // externalUrl: '',
     // screenshotImage: '',
     languages: ['Python', 'Hypixel Api', 'Library', 'OOP'],
+  },
+  {
+    title: 'Hypixel Bazaar TUI',
+    githubUrl: 'https://github.com/Feromond/hypixel-bazaar-tui',
+    externalUrl: 'https://github.com/Feromond/hypixel-bazaar-tui/releases',
+    screenshotImage: hypixelBazaarTuiScreenshot,
+    languages: ['Rust', 'TUI', 'API', 'Hypixel', 'Data Analysis'],
+  },
+  {
+    title: 'Ventra-Bot',
+    githubUrl: 'https://github.com/Feromond/ventra-bot',
+    // externalUrl: '',
+    screenshotImage: ventraBotScreenshot,
+    languages: ['Python', 'Discord API', 'Bot', 'Minecraft'],
+  },
+  {
+    title: 'My Legacy Portfolio Website',
+    githubUrl: 'https://github.com/Feromond/jacob-mish-portfolio',
+    externalUrl: 'https://jacobmish-old.netlify.app',
+    screenshotImage: oldPortfolioScreenshot,
+    languages: ['React', 'Javascript', 'Material UI'],
   },
   {
     title: 'Filtering Techniques',
