@@ -1,9 +1,9 @@
 .color-bends-container {
   position: absolute;
-  top: 0;
+  top: -20vh;
   left: 0;
   width: 100%;
-  height: 130vh;
+  height: 150vh;
   z-index: -1;
   overflow: hidden;
   pointer-events: none;
