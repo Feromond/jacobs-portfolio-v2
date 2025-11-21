@@ -15,7 +15,7 @@ import extractFiletypeZipScreenshot from '../assets/extractfiletype_gui_screensh
 import hypixelBazaarApiScreenshot from '../assets/hypixel_bazaar_api_screenshot.png'
 import hypixelBazaarTuiScreenshot from '../assets/hypixel-bazaar-tui.png'
 import connectFourSolverScreenshot from '../assets/connect_four_solver_screenshot.png'
-import ventraBotScreenshot from '../assets/ventra-bot.png'
+import ventraBotScreenshot from '../assets/ventra_bot_avatar.png'
 
 export const projects = [
   {
