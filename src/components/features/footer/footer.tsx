@@ -10,7 +10,7 @@ export function Footer() {
         position: 'relative',
         height: '80px',
         width: '100%',
-        overflow: 'visible',
+        overflow: 'hidden',
       }}
     >
       <ASCIIText
