@@ -29,7 +29,7 @@ export default function App() {
       <ColorBends
         colors={['#ff5c7a', '#8a5cff', '#00ffd1']}
         rotation={-17}
-        speed={0.12}
+        speed={0.06}
         scale={1.1}
         frequency={1.0}
         warpStrength={1.0}
