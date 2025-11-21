@@ -1,6 +1,23 @@
 import React from 'react'
 import './style.css'
+import ASCIIText from './footer_fancy'
 
 export function Footer() {
-  return <footer className="footer">&#169; 2025 Jacob Mish</footer>
+  return (
+    <footer
+      className="footer"
+      style={{
+        position: 'relative',
+        height: '80px',
+        width: '100%',
+        overflow: 'visible',
+      }}
+    >
+      <ASCIIText
+        text="&#169; 2025Jacob Mish"
+        enableWaves={false}
+        asciiFontSize={3}
+      />
+    </footer>
+  )
 }
