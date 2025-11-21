@@ -412,7 +412,9 @@ class CanvAscii {
     this.setSize(this.width, this.height)
 
     this.container.addEventListener('mousemove', this.onMouseMove)
-    this.container.addEventListener('touchmove', this.onMouseMove)
+    this.container.addEventListener('touchmove', this.onMouseMove, {
+      passive: true,
+    })
   }
 
   setSize(w: number, h: number) {
