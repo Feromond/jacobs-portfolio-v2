@@ -1,3 +1,8 @@
+.experience-section {
+  position: relative;
+  z-index: 5;
+}
+
 .experience-entry {
   display: flex;
   align-items: center;
@@ -9,7 +14,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   cursor: pointer;
-  z-index: 3;
+  z-index: 10;
   backdrop-filter: blur(8px);
   overflow: visible;
 }
@@ -17,6 +22,7 @@
 .experience-entry:hover {
   transform: translateY(-3px) scale(1.01);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+  z-index: 11;
 }
 
 .experience-entry:nth-child(odd) {
