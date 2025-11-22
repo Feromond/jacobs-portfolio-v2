@@ -137,41 +137,111 @@
   .projects-view-wrapper {
     position: relative;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .pagination-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;
+    background-color: rgba(255, 255, 255, 0.03);
+    padding: 0.35rem 2rem;
+    border-radius: 3rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    width: min(500px, 95%);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .pagination-controls:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
   }
 
   .pagination-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: transparent;
-    border: none;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     color: var(--color-light-gray);
-    padding: 0.5rem;
+    padding: 0.35rem 2.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: color 0.2s ease;
-    z-index: 10;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 2rem;
+    position: relative;
   }
 
   .pagination-arrow svg {
-    width: 1.8rem;
-    height: 1.8rem;
+    width: 1.4rem;
+    height: 1.4rem;
+    stroke-width: 2.5px;
+    transition: transform 0.3s ease;
   }
 
-  .pagination-arrow:hover {
-    background-color: transparent;
+  .pagination-arrow:hover:not(:disabled) {
     color: var(--color-white);
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .prev-arrow:hover:not(:disabled) svg {
+    transform: translateX(-3px);
+  }
+
+  .next-arrow:hover:not(:disabled) svg {
+    transform: translateX(3px);
+  }
+
+  .pagination-arrow:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  .pagination-arrow:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+    background-color: transparent;
     border-color: transparent;
   }
 
-  .prev-arrow {
-    left: -2rem;
+  .pagination-dots {
+    display: flex;
+    gap: 0.85rem;
+    align-items: center;
+    padding: 0 1rem;
   }
 
-  .next-arrow {
-    right: -2rem;
+  .pagination-dot {
+    width: 0.85rem;
+    height: 0.85rem;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0;
+  }
+
+  .pagination-dot:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.2);
+  }
+
+  .pagination-dot.active {
+    background-color: var(--color-white);
+    transform: scale(1.2);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.2);
   }
 }
 

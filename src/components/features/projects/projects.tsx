@@ -87,6 +87,7 @@ const Projects = forwardRef<HTMLDivElement>((props, ref) => {
     isPaginated,
     goToNextPage,
     goToPrevPage,
+    goToPage,
   } = useProjectPagination({
     items: projects,
     itemsPerPage: ITEMS_PER_PAGE,
@@ -97,27 +98,6 @@ const Projects = forwardRef<HTMLDivElement>((props, ref) => {
     <div ref={ref} className="projects">
       <Headings title="Projects" subtitle="Stuff I've Worked On" />
       <div className="projects-view-wrapper">
-        {isPaginated && currentPage > 0 && (
-          <button
-            className="pagination-arrow prev-arrow"
-            onClick={goToPrevPage}
-            aria-label="Previous projects"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-          </button>
-        )}
         <div className="projects-grid">
           {visibleProjects.map((project) => {
             const proj = project as Project
@@ -136,26 +116,61 @@ const Projects = forwardRef<HTMLDivElement>((props, ref) => {
             )
           })}
         </div>
-        {isPaginated && currentPage < totalPages - 1 && (
-          <button
-            className="pagination-arrow next-arrow"
-            onClick={goToNextPage}
-            aria-label="Next projects"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+        {isPaginated && totalPages > 1 && (
+          <div className="pagination-controls">
+            <button
+              className="pagination-arrow"
+              onClick={goToPrevPage}
+              disabled={currentPage === 0}
+              aria-label="Previous projects"
             >
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+            <div className="pagination-dots">
+              {Array.from({ length: totalPages }).map((_, index) => (
+                <button
+                  key={index}
+                  className={`pagination-dot ${
+                    currentPage === index ? 'active' : ''
+                  }`}
+                  onClick={() => goToPage(index)}
+                  aria-label={`Go to page ${index + 1}`}
+                />
+              ))}
+            </div>
+            <button
+              className="pagination-arrow"
+              onClick={goToNextPage}
+              disabled={currentPage === totalPages - 1}
+              aria-label="Next projects"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </div>
         )}
       </div>
       <Headings title="Publications" subtitle="Research and Articles" />

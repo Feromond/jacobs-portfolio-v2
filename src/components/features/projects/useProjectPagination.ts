@@ -18,6 +18,7 @@ interface UseProjectPaginationReturn {
   isPaginated: boolean
   goToNextPage: () => void
   goToPrevPage: () => void
+  goToPage: (pageIndex: number) => void
 }
 
 export const useProjectPagination = ({
@@ -68,6 +69,12 @@ export const useProjectPagination = ({
     setCurrentPage((prev) => (prev - 1 >= 0 ? prev - 1 : prev))
   }
 
+  const goToPage = (pageIndex: number) => {
+    if (pageIndex >= 0 && pageIndex < totalPages) {
+      setCurrentPage(pageIndex)
+    }
+  }
+
   return {
     visibleItems,
     currentPage,
@@ -75,5 +82,6 @@ export const useProjectPagination = ({
     isPaginated,
     goToNextPage,
     goToPrevPage,
+    goToPage,
   }
 }
