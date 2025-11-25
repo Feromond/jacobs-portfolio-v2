@@ -81,14 +81,70 @@
   justify-content: flex-end;
   position: relative;
   z-index: 2;
+  align-items: center;
 }
 
 .project-link a {
-  padding: 0 5px 5px;
+  /* Use flexbox to center icons within the link tag */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px; /* Uniform padding */
   font-size: 1.5rem;
   margin-left: 10px;
   color: var(--color-body);
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, transform 0.2s ease; /* Added transform transition */
+  line-height: 1;
+}
+
+.project-link a:hover {
+  transform: scale(1.2); /* Scale up on hover */
+  color: var(--color-white); /* Ensure color change on hover */
+}
+
+.star-link {
+  /* gap for spacing between icon and text */
+  gap: 0.3rem;
+  text-decoration: none;
+  opacity: 0; /* Start invisible for fade-in */
+  animation: fadeIn 0.5s ease forwards; /* Fade in animation */
+}
+
+.star-icon-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.star-filled {
+  position: absolute;
+  left: 0;
+  top: 0;
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 0.3s ease-out;
+  color: var(--color-white);
+}
+
+.project-link a:hover .star-filled {
+  clip-path: inset(0 0 0 0);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.star-link span {
+  font-size: 0.9rem;
+  font-weight: 500;
+  /* No extra padding needed if centered with flex align-items */
 }
 
 .project-name {

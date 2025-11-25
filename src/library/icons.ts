@@ -17,6 +17,8 @@ import {
   RiCodeSSlashLine as Code,
   RiMailLine as Mail,
   RiBriefcaseLine as Briefcase,
+  RiStarLine as Star,
+  RiStarFill as StarFilled,
 } from 'react-icons/ri'
 import { IoLogoYoutube as YouTube } from 'react-icons/io'
 import { FiFeather as Blog } from 'react-icons/fi'
@@ -40,4 +42,6 @@ export {
   Briefcase,
   Code,
   Mail,
+  Star,
+  StarFilled,
 }

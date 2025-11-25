@@ -1,5 +1,12 @@
-import React, { memo, forwardRef } from 'react'
-import { Github, Link, projects, publications } from '../../../library'
+import React, { memo, forwardRef, useState, useEffect } from 'react'
+import {
+  Github,
+  Link,
+  Star,
+  StarFilled,
+  projects,
+  publications,
+} from '../../../library'
 import { Headings } from '../../core/headings/headings'
 import Publication from '../publications/publications'
 import { useProjectPagination } from './useProjectPagination'
@@ -25,6 +32,57 @@ const ProjectCard = memo(
   }) => {
     const hasScreenshot =
       'screenshotImage' in project && project.screenshotImage
+
+    const [stars, setStars] = useState<number | null>(null)
+    const [error, setError] = useState(false)
+
+    useEffect(() => {
+      const fetchStars = async () => {
+        try {
+          const parts = project.githubUrl.split('/')
+          const owner = parts[parts.length - 2]
+          const repo = parts[parts.length - 1]
+          if (!owner || !repo) return
+
+          const CACHE_KEY = `github-stars-${owner}-${repo}`
+          const cached = localStorage.getItem(CACHE_KEY)
+
+          if (cached) {
+            const { count, timestamp } = JSON.parse(cached)
+            const now = Date.now()
+            // Cache for 24 hours
+            if (now - timestamp < 24 * 60 * 60 * 1000) {
+              setStars(count)
+              return
+            }
+          }
+
+          const response = await fetch(
+            `https://api.github.com/repos/${owner}/${repo}`
+          )
+          if (response.ok) {
+            const data = await response.json()
+            setStars(data.stargazers_count)
+            localStorage.setItem(
+              CACHE_KEY,
+              JSON.stringify({
+                count: data.stargazers_count,
+                timestamp: Date.now(),
+              })
+            )
+          } else {
+            setError(true)
+          }
+        } catch (error) {
+          console.error('Failed to fetch stars', error)
+          setError(true)
+        }
+      }
+
+      if (project.githubUrl) {
+        fetchStars()
+      }
+    }, [project.githubUrl])
 
     return (
       <a
@@ -60,6 +118,22 @@ const ProjectCard = memo(
               aria-label="live"
             >
               <Link />
+            </a>
+          )}
+          {(stars !== null || error) && (
+            <a
+              target={'_blank'}
+              href={`${project.githubUrl}/stargazers`}
+              rel="noreferrer"
+              aria-label={error ? 'Failed to load stars' : 'stars'}
+              title={error ? 'Failed to load stars' : 'stars'}
+              className="star-link"
+            >
+              <div className="star-icon-wrapper">
+                <Star className="star-outline" />
+                <StarFilled className="star-filled" />
+              </div>
+              <span>{error ? '?' : stars}</span>
             </a>
           )}
         </div>
