@@ -148,7 +148,7 @@ export const socialLinks = [
   },
   {
     name: 'LinkedIn',
-    url: 'https://www.linkedin.com/in/jacob-mish-25915722a/',
+    url: 'https://www.linkedin.com/in/jacob-mish/',
     icon: 'LinkedIn',
   },
   {
