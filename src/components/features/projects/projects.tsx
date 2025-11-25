@@ -51,7 +51,7 @@ const ProjectCard = memo(
             const { count, timestamp } = JSON.parse(cached)
             const now = Date.now()
             // Cache for 24 hours
-            if (now - timestamp < 24 * 60 * 60 * 1000) {
+            if (now - timestamp < 6 * 60 * 60 * 1000) {
               setStars(count)
               return
             }
