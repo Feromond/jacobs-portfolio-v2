@@ -8,7 +8,7 @@ export function Footer() {
       className="footer"
       style={{
         position: 'relative',
-        height: '80px',
+        height: '120px',
         width: '100%',
         overflow: 'hidden',
       }}
@@ -17,6 +17,7 @@ export function Footer() {
         text="&#169; 2025Jacob Mish"
         enableWaves={false}
         asciiFontSize={3}
+        planeBaseHeight={6}
       />
     </footer>
   )
