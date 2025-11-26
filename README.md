@@ -96,4 +96,4 @@ Jacob Mish
 
 - 🌐 Portfolio: [jacobmish.com](https://jacobmish.com)
 - 📧 Email: [jacobpmish@gmail.com](mailto:jacobpmish@gmail.com)
-- 💼 LinkedIn: [Jacob Mish](https://www.linkedin.com/in/jacob-mish-25915722a/)
+- 💼 LinkedIn: [Jacob Mish](https://www.linkedin.com/in/jacob-mish/)
