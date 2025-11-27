@@ -50,7 +50,7 @@ const About = React.forwardRef<HTMLDivElement>((props, ref) => {
           Feel free to message me on
           <a
             className="about-link"
-            href="https://www.linkedin.com/in/jacob-mish-25915722a/"
+            href="https://www.linkedin.com/in/jacob-mish/"
             target="_blank"
             rel="noreferrer"
           >

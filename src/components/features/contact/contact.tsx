@@ -9,7 +9,7 @@ const Contact = React.forwardRef<HTMLDivElement>((props, ref) => {
       <div className="contact-text">
         The fastest way to get in touch with me is to send me a message on{''}
         <a
-          href="https://www.linkedin.com/in/jacob-mish-25915722a/"
+          href="https://www.linkedin.com/in/jacob-mish/"
           target="_blank"
           rel="noreferrer"
         >
