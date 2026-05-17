@@ -29,7 +29,13 @@ A modern, responsive portfolio website built with React, TypeScript, and Vite. T
 ### Prerequisites
 
 - Node.js (latest stable version recommended)
-- npm or yarn
+- [pnpm](https://pnpm.io/) (used for dependency management for better safety and performance)
+
+If you don't have pnpm installed, you can install it with Homebrew:
+
+```bash
+brew install pnpm
+```
 
 ### Installation
 
@@ -43,25 +49,25 @@ cd jacobs-portfolio-v2
 2. Install dependencies
 
 ```bash
-npm install
+pnpm install
 ```
 
 3. Start the development server
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 ### Building for Production
 
 ```bash
-npm run build
+pnpm build
 ```
 
 ### Preview Production Build
 
 ```bash
-npm run preview
+pnpm preview
 ```
 
 ## Deployment
