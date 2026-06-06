@@ -1,6 +1,6 @@
 # Jacob's Portfolio Website
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/473cf738-f0d1-448f-a625-38036026ecb3/deploy-status)](https://app.netlify.com/sites/jacobmish/deploys)
+[![Site Status](https://img.shields.io/website?url=https%3A%2F%2Fjacobmish.com&up_message=live&up_color=brightgreen&down_message=down&down_color=red&label=site&logo=cloudflare)](https://jacobmish.com)
 
 ## Description
 
@@ -72,7 +72,7 @@ pnpm preview
 
 ## Deployment
 
-This website is deployed on Netlify with continuous deployment from the main branch.
+This website is deployed on Cloudflare Workers (Static Assets) with continuous deployment from the main branch.
 
 ## Project Structure
 
