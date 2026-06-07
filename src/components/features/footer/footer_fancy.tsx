@@ -526,77 +526,79 @@ export default function ASCIIText({
   const asciiRef = useRef<CanvAscii | null>(null)
 
   useEffect(() => {
-    if (!containerRef.current) return
+    const container = containerRef.current
+    if (!container) return
 
-    const { width, height } = containerRef.current.getBoundingClientRect()
+    let disposed = false
+    let ro: ResizeObserver | null = null
+    let io: IntersectionObserver | null = null
 
-    if (width === 0 || height === 0) {
-      const observer = new IntersectionObserver(
+    const start = (w: number, h: number) => {
+      if (disposed) return
+      asciiRef.current = new CanvAscii(
+        {
+          text,
+          asciiFontSize,
+          textFontSize,
+          textColor,
+          planeBaseHeight,
+          enableWaves,
+        },
+        container,
+        w,
+        h
+      )
+      asciiRef.current.load()
+
+      ro = new ResizeObserver((entries) => {
+        if (!entries[0] || !asciiRef.current) return
+        const { width: w2, height: h2 } = entries[0].contentRect
+        if (w2 > 0 && h2 > 0) {
+          asciiRef.current.setSize(w2, h2)
+        }
+      })
+      ro.observe(container)
+    }
+
+    const init = () => {
+      if (disposed) return
+      const { width, height } = container.getBoundingClientRect()
+      if (width > 0 && height > 0) {
+        start(width, height)
+        return
+      }
+      io = new IntersectionObserver(
         ([entry]) => {
-          if (
-            entry.isIntersecting &&
-            entry.boundingClientRect.width > 0 &&
-            entry.boundingClientRect.height > 0
-          ) {
-            const { width: w, height: h } = entry.boundingClientRect
-
-            asciiRef.current = new CanvAscii(
-              {
-                text,
-                asciiFontSize,
-                textFontSize,
-                textColor,
-                planeBaseHeight,
-                enableWaves,
-              },
-              containerRef.current!,
-              w,
-              h
-            )
-            asciiRef.current.load()
-
-            observer.disconnect()
+          const { width: w, height: h } = entry.boundingClientRect
+          if (entry.isIntersecting && w > 0 && h > 0) {
+            io?.disconnect()
+            start(w, h)
           }
         },
         { threshold: 0.1 }
       )
-
-      observer.observe(containerRef.current)
-
-      return () => {
-        observer.disconnect()
-        if (asciiRef.current) {
-          asciiRef.current.dispose()
-        }
-      }
+      io.observe(container)
     }
 
-    asciiRef.current = new CanvAscii(
-      {
-        text,
-        asciiFontSize,
-        textFontSize,
-        textColor,
-        planeBaseHeight,
-        enableWaves,
-      },
-      containerRef.current,
-      width,
-      height
-    )
-    asciiRef.current.load()
-
-    const ro = new ResizeObserver((entries) => {
-      if (!entries[0] || !asciiRef.current) return
-      const { width: w, height: h } = entries[0].contentRect
-      if (w > 0 && h > 0) {
-        asciiRef.current.setSize(w, h)
-      }
-    })
-    ro.observe(containerRef.current)
+    // Measure the text only after the web font loads, otherwise the canvas is
+    // sized from a fallback font and the name is clipped until a refresh.
+    const fonts = document.fonts
+    if (fonts?.load) {
+      Promise.all([
+        fonts.load(`600 ${textFontSize}px "IBM Plex Mono"`),
+        fonts.load(`500 ${textFontSize}px "IBM Plex Mono"`),
+      ])
+        .then(() => fonts.ready)
+        .then(init)
+        .catch(init)
+    } else {
+      init()
+    }
 
     return () => {
-      ro.disconnect()
+      disposed = true
+      ro?.disconnect()
+      io?.disconnect()
       asciiRef.current?.dispose()
     }
   }, [
@@ -619,13 +621,6 @@ export default function ASCIIText({
       }}
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap');
-
-        body {
-          margin: 0;
-          padding: 0;
-        }
-
         .ascii-text-container canvas {
           position: absolute;
           left: 0;
