@@ -1,31 +1,41 @@
-import React from 'react'
-import { Headings } from '../../core/headings/headings'
+import { Arrow, contactLinks, ventra } from '../../../library'
 import './style.css'
 
-const Contact = React.forwardRef<HTMLDivElement>((props, ref) => {
+export function Contact() {
   return (
-    <div ref={ref} className="contact">
-      <Headings title="Contact" subtitle="How to reach me" />
-      <div className="contact-text">
-        The fastest way to get in touch with me is to send me a message on{''}
-        <a
-          href="https://www.linkedin.com/in/jacob-mish/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          LinkedIn
-        </a>{' '}
-        or an{''}
-        <a href="mailto:jacobpmish@gmail.com" target="_blank" rel="noreferrer">
-          Email
-        </a>
-        . Whether you have a question or just want to say &quot;Hi,&quot;
-        I&apos;ll try my best to get back to you.
+    <section id="contact" className="contact" aria-labelledby="contact-title">
+      <div className="contact-inner" data-reveal>
+        <h2 id="contact-title">Let&apos;s talk.</h2>
+        <p className="contact-text">
+          Email and LinkedIn are the easiest ways to reach me.
+        </p>
+        <div className="contact-actions">
+          <a className="btn btn-primary" href={contactLinks.email}>
+            Email me
+          </a>
+          <a
+            className="btn btn-secondary"
+            href={contactLinks.linkedin}
+            target="_blank"
+            rel="noopener"
+          >
+            LinkedIn
+          </a>
+        </div>
+        <div className="contact-links">
+          <a
+            className="link"
+            href={contactLinks.github}
+            target="_blank"
+            rel="noopener"
+          >
+            GitHub <Arrow aria-hidden="true" />
+          </a>
+          <a className="link" href={ventra.url} target="_blank" rel="noopener">
+            Ventra Software <Arrow aria-hidden="true" />
+          </a>
+        </div>
       </div>
-    </div>
+    </section>
   )
-})
-
-Contact.displayName = 'Contact'
-
-export { Contact }
+}

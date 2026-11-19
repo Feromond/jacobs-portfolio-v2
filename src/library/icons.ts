@@ -1,47 +1,23 @@
-// Importing icons from react-icons library
-import { BiSun as Sun, BiMoon as Moon } from 'react-icons/bi'
-import { VscGithub as Github } from 'react-icons/vsc'
-import { RxExternalLink as Link } from 'react-icons/rx'
-import { MdOutlineHorizontalRule as Line } from 'react-icons/md'
-import { BsInstagram as Instagram } from 'react-icons/bs'
-import { IoCloudDownloadOutline as Download } from 'react-icons/io5'
-import {
-  IoIosArrowDown as Dropdown,
-  IoIosArrowUp as Collapse,
-} from 'react-icons/io'
-import {
-  RiTwitterLine as Twitter,
+export { VscGithub as Github } from 'react-icons/vsc'
+export { FiArrowUpRight as External } from 'react-icons/fi'
+export {
   RiLinkedinFill as LinkedIn,
   RiHome5Line as Home,
   RiUser3Line as User,
   RiCodeSSlashLine as Code,
   RiMailLine as Mail,
   RiBriefcaseLine as Briefcase,
-  RiStarLine as Star,
-  RiStarFill as StarFilled,
+  RiStarFill as Star,
+  RiArrowRightLine as Arrow,
+  RiArrowLeftLine as ArrowLeft,
+  RiDownloadLine as Download,
+  RiPlayFill as Play,
+  RiPauseFill as Pause,
+  RiTerminalBoxLine as Terminal,
+  RiFolder3Line as Folder,
+  RiFileUserLine as ResumeIcon,
+  RiFlaskLine as Flask,
+  RiMacbookLine as Desktop,
+  RiFileCopyLine as Copy,
+  RiCheckLine as Check,
 } from 'react-icons/ri'
-import { IoLogoYoutube as YouTube } from 'react-icons/io'
-import { FiFeather as Blog } from 'react-icons/fi'
-
-export {
-  Sun,
-  Moon,
-  Github,
-  Link,
-  Line,
-  Instagram,
-  YouTube,
-  LinkedIn,
-  Twitter,
-  Blog,
-  Dropdown,
-  Collapse,
-  Download,
-  Home,
-  User,
-  Briefcase,
-  Code,
-  Mail,
-  Star,
-  StarFilled,
-}

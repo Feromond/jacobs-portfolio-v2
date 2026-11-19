@@ -1,21 +1,21 @@
-import React from 'react'
-import { Line } from '../../../library'
+import type { ReactNode } from 'react'
+
 import './style.css'
 
 type HeadingsProps = {
   title: string
-  subtitle: string
+  lede: string
+  id?: string
+  children?: ReactNode
 }
 
-// Headings component: Renders a title and subtitle with a line separator
-export function Headings({ title, subtitle }: HeadingsProps) {
+export function Headings({ title, lede, id, children }: HeadingsProps) {
   return (
-    <div className="headline-wrapper">
-      <h2 className="headline">
-        {title}
-        <Line />
+    <header className="section-head" data-reveal>
+      <h2 id={id}>
+        {title}. <span>{lede}</span>
       </h2>
-      <h3 className="subline"> {subtitle} </h3>
-    </div>
+      {children && <div className="section-head-actions">{children}</div>}
+    </header>
   )
 }

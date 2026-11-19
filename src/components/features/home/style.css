@@ -1,443 +1,190 @@
-.wrapper {
+.hero {
+  --k: 1;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  min-height: 60vh;
+  align-items: stretch;
+  gap: clamp(16px, 3vw, 30px);
+  min-height: min(88vh, 860px);
+  padding-top: clamp(40px, 8vh, 96px);
 }
 
-.arrow {
-  width: 100%;
-  max-width: 1px;
-  height: 490px;
-  margin-right: 30px;
-  background: var(--color-dark-gray);
-}
-
-.bundle {
-  width: 100%;
-  max-width: 100%;
-}
-
-.chunck {
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 15px;
-}
-
-.chunck:last-child {
-  margin-bottom: 0;
-}
-
-.distance-left-chunck {
-  display: flex;
-  flex-direction: row;
-  margin-left: 50px;
-}
-
-.name {
-  line-height: 1.5;
-  margin-left: 50px;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  padding: 0;
-}
-.title {
-  font-weight: 500;
-  font-size: calc(80 / 20 * 1rem);
-  color: var(--color-white);
-}
-
-.title.shine-effect {
-  position: relative;
-  overflow: hidden;
-}
-
-.title.shine-effect::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
+.hero-rail {
+  flex: none;
+  width: 1px;
   background: linear-gradient(
-    90deg,
+    to bottom,
     transparent,
-    rgba(255, 255, 255, 0.2),
+    rgb(255 255 255 / 0.22) 12%,
+    rgb(255 255 255 / 0.22) 88%,
     transparent
   );
-  animation: title-shine 6s ease-in-out infinite;
 }
 
-@keyframes title-shine {
-  /* Start from left */
-  0% {
-    left: -100%;
+.hero-bundle {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+}
+
+.code-row {
+  display: flex;
+  gap: 10px;
+  min-width: 0;
+}
+
+.code-row.is-indented,
+.hero-name {
+  margin-left: clamp(20px, 4vw, 50px);
+}
+
+.code-seg {
+  flex: 0 1 auto;
+  width: calc(var(--w) * 1px * var(--k));
+  min-width: 10px;
+  height: 14px;
+  border-radius: 4px;
+  background: var(--code-muted);
+}
+
+.seg-a {
+  background: var(--code-a);
+}
+
+.seg-b {
+  background: var(--code-b);
+}
+
+.seg-c {
+  background: var(--code-c);
+}
+
+.seg-dot {
+  flex: none;
+  width: 14px;
+  min-width: 0;
+  border-radius: 50%;
+}
+
+.hero-name {
+  padding: 18px 0 26px;
+}
+
+.hero-title {
+  font-size: clamp(56px, 10vw, 96px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.045em;
+  background: linear-gradient(
+    100deg,
+    #eef0f4 0%,
+    #eef0f4 42%,
+    #ffffff 49%,
+    #b6ffe5 51%,
+    #c3b1ff 53%,
+    #eef0f4 60%,
+    #eef0f4 100%
+  );
+  background-size: 250% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-bottom: 0.06em;
+}
+
+.hero-title.rise {
+  animation: rise 0.9s var(--ease-out) both var(--d, 0s),
+    shine 5s cubic-bezier(0.45, 0, 0.35, 1) 0.8s infinite;
+}
+
+.hero-kicker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  color: var(--text);
+}
+
+.hero-role {
+  max-width: 32ch;
+  margin-top: 18px;
+  font-size: clamp(20px, 2.4vw, 26px);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: #a3aab5;
+  text-shadow: 0 2px 28px rgb(0 0 0 / 0.65);
+  text-wrap: balance;
+}
+
+.hero-role strong {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 24px;
+  margin-top: 30px;
+}
+
+.rise {
+  animation: rise 0.9s var(--ease-out) both var(--d, 0s);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
   }
-  15% {
-    left: 100%;
+}
+
+@keyframes shine {
+  0%,
+  30% {
+    background-position: 100% 0;
   }
-  /* Pause */
-  40% {
-    left: 100%;
-  }
-  /* Reset for the reverse direction */
-  40.001% {
-    left: 200%;
-  }
-  /* Start from right */
-  40.002% {
-    left: 200%;
-  }
-  55% {
-    left: -100%;
-  }
-  /* Pause */
+  90%,
   100% {
-    left: -100%;
+    background-position: 0% 0;
   }
 }
 
-.subtitle {
-  font-weight: 400;
-  font-size: calc(40 / 20 * 1rem);
-  color: var(--color-white);
-}
-
-.four-line-primary-V1 {
-  width: 100%;
-  max-width: 140px;
-  height: 15px;
-  margin-right: 10px;
-  background: var(---color-code-b);
-}
-
-.four-line-secondary-V1 {
-  height: 15px;
-  width: 100%;
-  max-width: 15px;
-  margin-right: 10px;
-  background: var(--color-light-gray);
-}
-.four-line-tertiary-V1 {
-  height: 15px;
-  width: 100%;
-  max-width: 100px;
-  margin-right: 10px;
-  background: var(--color-light-gray);
-}
-.four-line-prevention-V1 {
-  height: 15px;
-  width: 100%;
-  max-width: 190px;
-  background: var(---color-code-a);
-}
-
-.four-line-primary-V2 {
-  width: 100%;
-  max-width: 240px;
-  height: 15px;
-  margin-right: 10px;
-  background: var(---color-code-a);
-}
-.four-line-secondary-V2 {
-  height: 15px;
-  width: 100%;
-  max-width: 120px;
-  margin-right: 10px;
-  background: var(--color-light-gray);
-}
-.four-line-tertiary-V2 {
-  width: 100%;
-  max-width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  margin-right: 10px;
-  background: var(--color-light-gray);
-}
-.four-line-prevention-V2 {
-  height: 15px;
-  width: 100%;
-  max-width: 180px;
-  background: var(---color-code-b);
-}
-
-.four-line-primary-V3 {
-  width: 100%;
-  max-width: 150px;
-  height: 15px;
-  margin-right: 10px;
-  background: var(---color-code-a);
-}
-
-.four-line-secondary-V3 {
-  height: 15px;
-  width: 100%;
-  max-width: 15px;
-  margin-right: 10px;
-  background: var(--color-light-gray);
-}
-
-.four-line-tertiary-V3 {
-  height: 15px;
-  width: 100%;
-  max-width: 100px;
-  margin-right: 10px;
-  background: var(--color-light-gray);
-}
-.four-line-prevention-V3 {
-  height: 15px;
-  width: 100%;
-  max-width: 200px;
-  background: var(---color-code-c);
-}
-
-.four-line-primary-V4 {
-  width: 100%;
-  max-width: 100px;
-  height: 15px;
-  margin-right: 10px;
-  background: var(---color-code-c);
-}
-.four-line-secondary-V4 {
-  height: 15px;
-  width: 100%;
-  max-width: 15px;
-  margin-right: 10px;
-  background: var(--color-light-gray);
-}
-.four-line-tertiary-V4 {
-  height: 15px;
-  width: 100%;
-  max-width: 160px;
-  margin-right: 10px;
-  background: var(--color-light-gray);
-}
-
-.four-line-prevention-V4 {
-  height: 15px;
-  width: 100%;
-  max-width: 60px;
-  background: var(---color-code-a);
-}
-
-.three-line-primary-V1 {
-  height: 15px;
-  width: 100%;
-  max-width: 180px;
-  background: var(---color-code-a);
-}
-
-.three-line-secondary-V1 {
-  width: 100%;
-  max-width: 120px;
-  height: 15px;
-  margin: 0 10px;
-  background: var(--color-light-gray);
-}
-
-.three-line-tertiary-V1 {
-  width: 100%;
-  max-width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background: var(--color-light-gray);
-}
-
-.three-line-primary-V2 {
-  height: 15px;
-  width: 100%;
-  max-width: 180px;
-  background: var(---color-code-c);
-}
-
-.three-line-secondary-V2 {
-  width: 100%;
-  max-width: 100px;
-  height: 15px;
-  margin: 0 10px;
-  background: var(---color-code-a);
-}
-
-.three-line-tertiary-V2 {
-  width: 100%;
-  max-width: 260px;
-  height: 15px;
-  background: var(---color-code-c);
-}
-
-.two-line-primary-V1 {
-  height: 15px;
-  width: 100%;
-  max-width: 250px;
-  margin-right: 10px;
-  background: var(---color-code-b);
-}
-
-.two-line-secondary-V1 {
-  width: 100%;
-  max-width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background: var(--color-light-gray);
-}
-
-.two-line-primary-V2 {
-  height: 15px;
-  width: 100%;
-  max-width: 260px;
-  background: var(---color-code-a);
-}
-
-.two-line-secondary-V2 {
-  width: 100%;
-  max-width: 140px;
-  height: 15px;
-  margin: 0 10px;
-  background: var(---color-code-c);
-}
-
-.one-line-primary {
-  height: 15px;
-  width: 100%;
-  max-width: 390px;
-  margin-bottom: 12px;
-  background: var(---color-code-c);
-}
-
-.one-line-secondary {
-  height: 15px;
-  width: 100%;
-  max-width: 300px;
-  margin-bottom: 12px;
-  background: var(---color-code-b);
-}
-
-@media screen and (max-width: 769px) {
-  .wrapper {
-    margin-top: 10px;
-  }
-
-  .name {
-    margin-top: 0px;
-    margin-bottom: 0px;
+@media (max-width: 900px) {
+  .hero {
+    --k: 0.75;
   }
 }
 
-@media screen and (max-width: 600px) {
-  .distance-left-chunck {
-    margin-left: 25px;
+@media (max-width: 600px) {
+  .hero {
+    --k: 0.42;
+    min-height: auto;
+    padding-top: 40px;
   }
 
-  .name {
-    margin-left: 25px;
-    padding: 20px 0 35px 0;
-  }
-  .title {
-    font-size: calc(60 / 20 * 1rem);
+  .hero-bundle {
+    gap: 11px;
   }
 
-  .subtitle {
-    font-size: calc(35 / 20 * 1rem);
+  .code-seg {
+    height: 11px;
+    border-radius: 3px;
   }
 
-  .four-line-primary-V1 {
-    max-width: 40px;
+  .seg-dot {
+    width: 11px;
+    border-radius: 50%;
   }
 
-  .four-line-secondary-V1 {
-    max-width: 15px;
-  }
-  .four-line-tertiary-V1 {
-    max-width: 70px;
-  }
-  .four-line-prevention-V1 {
-    max-width: 120px;
-  }
-
-  .four-line-primary-V2 {
-    max-width: 100px;
-  }
-  .four-line-secondary-V2 {
-    max-width: 50px;
-  }
-  .four-line-tertiary-V2 {
-    max-width: 15px;
-  }
-  .four-line-prevention-V2 {
-    max-width: 100px;
-  }
-
-  .four-line-primary-V3 {
-    max-width: 100px;
-  }
-
-  .four-line-secondary-V3 {
-    max-width: 15px;
-  }
-
-  .four-line-tertiary-V3 {
-    max-width: 80px;
-  }
-  .four-line-prevention-V3 {
-    max-width: 125px;
-  }
-
-  .four-line-primary-V4 {
-    max-width: 100px;
-  }
-  .four-line-secondary-V4 {
-    max-width: 15px;
-  }
-  .four-line-tertiary-V4 {
-    max-width: 70px;
-  }
-
-  .four-line-prevention-V4 {
-    max-width: 60px;
-  }
-
-  .three-line-primary-V1 {
-    max-width: 100px;
-  }
-
-  .three-line-secondary-V1 {
-    max-width: 80px;
-  }
-
-  .three-line-tertiary-V1 {
-    max-width: 15px;
-  }
-
-  .three-line-primary-V2 {
-    max-width: 100px;
-  }
-
-  .three-line-secondary-V2 {
-    max-width: 60px;
-  }
-
-  .three-line-tertiary-V2 {
-    max-width: 260px;
-  }
-
-  .two-line-primary-V1 {
-    max-width: 280px;
-  }
-
-  .two-line-primary-V2 {
-    max-width: 80px;
-  }
-
-  .two-line-secondary-V2 {
-    max-width: 280px;
-  }
-
-  .one-line-primary {
-    max-width: 230px;
-  }
-
-  .one-line-secondary {
-    max-width: 250px;
+  .hero-name {
+    padding: 14px 0 20px;
   }
 }

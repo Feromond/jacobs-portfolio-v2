@@ -1,65 +1,154 @@
-.publications-grid {
-  width: 100%;
+.pubs {
   display: grid;
-  grid-gap: 1rem;
-  grid-template-columns: repeat(3, 1fr);
-  margin-bottom: 100px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: 20px;
 }
 
-.publication-entry {
-  padding: 1rem;
-  border: 1px solid var(--color-light-gray);
-  transition: all 0.2s ease;
-  background-color: var(--color-obstian);
-  color: var(--color-light-gray);
-  border-bottom: 3px solid var(--color-green);
+.pub {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  transition: transform 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out);
 }
 
-.publication-entry:hover {
-  border: 1px solid var(--color-white);
-  border-bottom: 3px solid var(--color-sky-blue);
+.pub-art {
+  position: relative;
+  height: 128px;
+  overflow: hidden;
+  background: radial-gradient(
+      90% 120% at 50% 0%,
+      color-mix(in srgb, var(--trace) 12%, transparent),
+      transparent 70%
+    ),
+    #0a0b0e;
+  border-bottom: 1px solid var(--hairline);
 }
 
-.publication-entry a {
-  text-decoration: none;
-  color: var(--color-green);
-}
-
-.publication-entry h3 {
-  font-size: 1.5rem;
-  font-weight: 700;
-}
-
-.publication-entry .authors,
-.publication-entry .conference,
-.publication-entry .year,
-.publication-entry .additional {
-  font-size: 1rem;
-  font-weight: 400;
-  color: var(--color-light-gray);
-}
-
-.publication-entry .pdf-link {
-  display: inline-block;
-  font-size: 1.8rem;
-  color: var(--color-sky-blue);
+.pub-seismo {
   position: absolute;
-  bottom: 0.5rem;
-  right: 1rem;
-}
-.publication-entry .pdf-link:hover {
-  color: var(--color-white);
+  inset: 10px 0 0;
+  width: 100%;
+  height: calc(100% - 10px);
 }
 
-@media screen and (max-width: 1000px) {
-  .publications-grid {
-    grid-template-columns: repeat(1, 1fr);
+.pub-seismo path {
+  fill: none;
+  stroke: var(--trace);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.75;
+  transition: opacity 0.4s var(--ease);
+}
+
+.pub-pick {
+  fill: none;
+  stroke: var(--peach);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  vector-effect: non-scaling-stroke;
+  transition: stroke-dashoffset 1.1s var(--ease-out);
+}
+
+.pub-type {
+  position: absolute;
+  left: 14px;
+  bottom: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--text);
+  background: rgb(8 9 11 / 0.6);
+  backdrop-filter: blur(10px) saturate(1.6);
+  -webkit-backdrop-filter: blur(10px) saturate(1.6);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.18),
+    0 0 0 1px rgb(255 255 255 / 0.08);
+}
+
+.pub-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px 22px 22px;
+}
+
+.pub-title {
+  font-size: 18px;
+  font-weight: 650;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.pub-title a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.pub-authors {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+
+.pub-authors strong {
+  font-weight: 650;
+  color: var(--text);
+}
+
+.pub-venue {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0;
+  color: var(--text-tertiary);
+}
+
+.pub-role {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--mint);
+}
+
+.pub-links {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.pub-links .link {
+  font-size: 14.5px;
+}
+
+@media (hover: hover) {
+  .pub:hover {
+    transform: translateY(-4px);
+    box-shadow: inset 0 0 0 1px var(--hairline-strong),
+      0 30px 60px -32px rgb(0 0 0 / 0.95);
+  }
+
+  .pub:hover .pub-pick {
+    stroke-dashoffset: 0;
+  }
+
+  .pub:hover .pub-seismo path {
+    opacity: 1;
   }
 }
 
-@media screen and (max-width: 600px) {
-  .publications-grid {
-    grid-template-columns: 1fr;
-  }
+.pub:focus-within .pub-pick {
+  stroke-dashoffset: 0;
 }

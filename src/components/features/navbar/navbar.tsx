@@ -1,354 +1,378 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { navbarData } from '../../../library'
+import type React from 'react'
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react'
+
+import { navItems } from '../../../library'
 import * as Icons from '../../../library/icons'
+import { useLens } from '../../../liquidGlass'
 import './style.css'
 
-type NavProps = {
-  scrollToSection: (elementRef: React.RefObject<HTMLDivElement>) => void
-  homeRef: React.RefObject<HTMLDivElement>
-  aboutRef: React.RefObject<HTMLDivElement>
-  projectsRef: React.RefObject<HTMLDivElement>
-  experienceRef: React.RefObject<HTMLDivElement>
-  contactRef: React.RefObject<HTMLDivElement>
+const LIFT = 1.18
+const HOVER_LIFT = 1.07
+const HOVER_PULL = 0.35
+const DRAG_START = 6
+
+type Spring = { pos: number; vel: number; target: number }
+
+const step = (s: Spring, k: number, c: number, dt: number) => {
+  const accel = k * (s.target - s.pos) - c * s.vel
+  s.vel += accel * dt
+  s.pos += s.vel * dt
 }
 
-export function Navbar({
-  scrollToSection,
-  homeRef,
-  aboutRef,
-  projectsRef,
-  experienceRef,
-  contactRef,
-}: NavProps) {
-  // Track if we're scrolled down enough to show the filled navbar
-  const [isScrolled, setIsScrolled] = useState<boolean>(false)
+const settled = (s: Spring, eps: number) =>
+  Math.abs(s.target - s.pos) < eps && Math.abs(s.vel) < eps * 10
 
-  // Track which section is currently active (from scroll detection)
-  const [activeSection, setActiveSection] = useState<number>(0)
+export function Navbar() {
+  const [active, setActive] = useState(0)
+  const activeRef = useRef(0)
+  activeRef.current = active
+  const [scrolled, setScrolled] = useState(false)
+  const [underLens, setUnderLens] = useState<number | null>(null)
+  const itemRefs = useRef<(HTMLAnchorElement | null)[]>([])
+  const listRef = useRef<HTMLUListElement>(null)
+  const barRef = useLens<HTMLLIElement>()
+  const pillRef = useLens<HTMLLIElement>({ magnify: 1.24, band: 12, pull: 7 })
 
-  // Track if user is currently hovering a nav item
-  const [hoveredItem, setHoveredItem] = useState<number | null>(null)
+  const x = useRef<Spring>({ pos: 0, vel: 0, target: 0 })
+  const w = useRef<Spring>({ pos: 0, vel: 0, target: 0 })
+  const lift = useRef<Spring>({ pos: 1, vel: 0, target: 1 })
+  const raf = useRef(0)
+  const last = useRef(0)
+  const placed = useRef(false)
+  const drag = useRef<{ id: number; startX: number; moved: boolean } | null>(
+    null
+  )
+  const lockUntil = useRef(0)
+  const suppressClick = useRef(false)
+  const still = useRef(false)
+  const settleTimer = useRef(0)
+  const hover = useRef<number | null>(null)
 
-  // Track if we're in a manual navigation state (prevents scroll updates)
-  const isManualNavRef = useRef<boolean>(false)
+  const render = useCallback(() => {
+    const pill = pillRef.current
+    if (!pill) return
+    const speed = Math.abs(x.current.vel)
+    const s = lift.current.pos
+    const sx = s * (1 + Math.min(0.12, speed / 3200))
+    const sy = s * (1 - Math.min(0.07, speed / 5600))
+    pill.style.width = `${w.current.pos}px`
+    pill.style.transform = `translate3d(${x.current.pos}px, 0, 0) scale(${sx}, ${sy})`
+    pill.classList.toggle('is-lifted', lift.current.target > 1 || s > 1.025)
+    pill.classList.toggle('is-pressed', lift.current.target >= LIFT)
+  }, [pillRef])
 
-  // Track the last clicked item (used for manual navigation)
-  const [clickedItem, setClickedItem] = useState<number>(-1)
-
-  // Keep references to nav items for measurements
-  const navItemsRef = useRef<(HTMLSpanElement | null)[]>([])
-
-  // Store slider position and size
-  const [sliderStyle, setSliderStyle] = useState<React.CSSProperties>({})
-
-  // Track scroll position for background change
-  useEffect(() => {
-    const changeBackground = () => {
-      setIsScrolled(window.scrollY >= 40)
-    }
-
-    window.addEventListener('scroll', changeBackground)
-    return () => window.removeEventListener('scroll', changeBackground)
-  }, [])
-
-  // Update slider position based on what's currently showing
-  const updateSliderPosition = useCallback((index: number) => {
-    const currentItem = navItemsRef.current[index]
-    if (!currentItem) return
-
-    const rect = currentItem.getBoundingClientRect()
-    const parentRect = currentItem.parentElement?.getBoundingClientRect()
-    if (!parentRect) return
-
-    const extraPadding = 16
-    setSliderStyle({
-      width: `${Math.round(rect.width + extraPadding)}px`,
-      left: `${Math.round(rect.left - parentRect.left - extraPadding / 2)}px`,
-    })
-  }, [])
-
-  // Handle window resize
-  useEffect(() => {
-    const handleResize = () => {
-      // Determine which item to show based on state hierarchy:
-      // 1. Hovered item takes precedence when present
-      // 2. During manual navigation, show the clicked item
-      // 3. Otherwise, show the active section from scroll
-      const indexToShow =
-        hoveredItem !== null
-          ? hoveredItem
-          : isManualNavRef.current
-          ? clickedItem
-          : activeSection
-
-      updateSliderPosition(indexToShow)
-    }
-
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [hoveredItem, clickedItem, activeSection, updateSliderPosition])
-
-  // Intersection Observer to detect which section is visible
-  useEffect(() => {
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
-
-    const options = {
-      root: null,
-      rootMargin: isMobile ? '-15% 0px -15% 0px' : '-20% 0px -20% 0px',
-      threshold: isMobile
-        ? [0.05, 0.1, 0.2, 0.3, 0.4, 0.5]
-        : [0.1, 0.25, 0.5, 0.75],
-    }
-
-    const sectionRefs = [
-      { ref: homeRef.current, index: 0 },
-      { ref: aboutRef.current, index: 1 },
-      { ref: experienceRef.current, index: 2 },
-      { ref: projectsRef.current, index: 3 },
-      { ref: contactRef.current, index: 4 },
-    ]
-
-    let visibleSections = new Map()
-
-    const handleIntersection = (entries: IntersectionObserverEntry[]) => {
-      // Skip updates during manual navigation
-      if (isManualNavRef.current) return
-
-      // On mobile, clear any lingering hover states during scroll
-      if (isMobile && hoveredItem !== null) {
-        setHoveredItem(null)
+  const frame = useCallback(
+    (now: number) => {
+      const dt = Math.min(1 / 30, (now - last.current) / 1000 || 1 / 60)
+      last.current = now
+      const dragging = !!drag.current?.moved
+      const k = dragging ? 900 : 380
+      const c = dragging ? 46 : 30
+      step(x.current, k, c, dt)
+      step(w.current, k, c, dt)
+      step(lift.current, 520, 19, dt)
+      render()
+      const done =
+        !drag.current &&
+        settled(x.current, 0.2) &&
+        settled(w.current, 0.2) &&
+        settled(lift.current, 0.002)
+      if (done) {
+        raf.current = 0
+        return
       }
+      raf.current = requestAnimationFrame(frame)
+    },
+    [render]
+  )
 
-      // Process entries
-      entries.forEach((entry) => {
-        const targetIndex = sectionRefs.find(
-          (section) => section.ref === entry.target
-        )?.index
-
-        if (targetIndex !== undefined) {
-          if (entry.isIntersecting) {
-            visibleSections.set(targetIndex, entry.intersectionRatio)
-          } else {
-            visibleSections.delete(targetIndex)
-          }
-        }
-      })
-
-      // Find most visible section
-      if (visibleSections.size > 0) {
-        const [mostVisibleSection] = [...visibleSections.entries()].reduce(
-          (max, [section, ratio]) => (ratio > max[1] ? [section, ratio] : max),
-          [0, 0]
-        )
-
-        // Only update if different from current active section
-        if (mostVisibleSection !== activeSection) {
-          setActiveSection(mostVisibleSection)
-
-          // Only update slider if not hovering and not in manual nav
-          if (hoveredItem === null && !isManualNavRef.current) {
-            updateSliderPosition(mostVisibleSection)
-          }
-        }
-      } else if (window.scrollY === 0) {
-        setActiveSection(0)
-
-        // Only update slider if not hovering and not in manual nav
-        if (hoveredItem === null && !isManualNavRef.current) {
-          updateSliderPosition(0)
-        }
-      }
-    }
-
-    const observer = new IntersectionObserver(handleIntersection, options)
-
-    sectionRefs.forEach((section) => {
-      if (section.ref) observer.observe(section.ref)
-    })
-
-    return () => {
-      sectionRefs.forEach((section) => {
-        if (section.ref) observer.unobserve(section.ref)
-      })
-    }
-  }, [
-    homeRef,
-    aboutRef,
-    experienceRef,
-    projectsRef,
-    contactRef,
-    updateSliderPosition,
-    activeSection,
-    hoveredItem,
-  ])
-
-  // Function to handle nav item clicks with clear separation from scroll detection
-  const handleItemClick = (index: number) => {
-    // Skip if already on this section
-    if (clickedItem === index && activeSection === index && clickedItem !== -1)
+  const kick = useCallback(() => {
+    if (still.current) {
+      x.current.pos = x.current.target
+      w.current.pos = w.current.target
+      lift.current.pos = 1
+      lift.current.target = 1
+      render()
       return
-
-    // Clear any persistent hover state (important for mobile)
-    setHoveredItem(null)
-
-    // Set clicked state (styling will follow hover state that's already active)
-    setClickedItem(index)
-
-    // Set manual navigation mode - this blocks scroll detection updates
-    isManualNavRef.current = true
-
-    // No need to update slider position - it's already positioned by hover
-
-    // Scroll to section - this will trigger scroll events, but we're ignoring them
-    const targetRef = [
-      homeRef,
-      aboutRef,
-      experienceRef,
-      projectsRef,
-      contactRef,
-    ][index]
-    scrollToSection(targetRef)
-
-    // After scrolling completes, re-enable scroll detection
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
-    setTimeout(
-      () => {
-        isManualNavRef.current = false
-
-        // When re-enabling scroll detection, update active section and CLEAR clicked item
-        // This ensures we don't have duplicate active items
-        setActiveSection(index)
-        setClickedItem(index) // Initially set to match current section
-
-        // After a small delay, clear the clicked item to fully transition to scroll-based navigation
-        setTimeout(() => {
-          if (!isManualNavRef.current) {
-            // Only if we're still in scroll mode
-            setClickedItem(-1) // Use -1 to indicate no clicked item is active
-          }
-        }, 500)
-      },
-      isMobile ? 1200 : 800
-    )
-  }
-
-  // Determine visual state for rendering
-  const navBackground = isScrolled ? 'nav-links-filled' : 'nav-links'
-
-  // Function to determine if text should be shown for an item
-  const shouldShowText = (index: number) => {
-    return (
-      hoveredItem === index ||
-      (clickedItem === index && clickedItem !== -1 && hoveredItem === null) ||
-      (activeSection === index &&
-        hoveredItem === null &&
-        (!isManualNavRef.current || clickedItem === -1))
-    )
-  }
-
-  // Function to determine if icon should show the glow effect
-  const shouldShowGlow = (index: number) => {
-    return (
-      ((activeSection === index && clickedItem === -1) ||
-        (clickedItem === index && clickedItem !== -1)) &&
-      hoveredItem !== null &&
-      hoveredItem !== index
-    )
-  }
-
-  // Update slider when hover/active/clicked state changes
-  useEffect(() => {
-    const indexToShow =
-      hoveredItem !== null
-        ? hoveredItem
-        : isManualNavRef.current
-        ? clickedItem
-        : activeSection
-
-    updateSliderPosition(indexToShow)
-  }, [hoveredItem, activeSection, clickedItem, updateSliderPosition])
-
-  // Effect to handle touch events on mobile devices
-  useEffect(() => {
-    // This handles the case where the user taps elsewhere on the screen
-    // to ensure any lingering hover states from previous taps are cleared
-    const handleTouchStart = (e: TouchEvent) => {
-      // Only clear hover if we're not touching a nav item
-      // Check if the touch target is within the navbar
-      const navbarEl = document.querySelector('.nav')
-      const target = e.target as Node
-
-      // If the touch is outside the navbar, clear hover state
-      if (navbarEl && !navbarEl.contains(target)) {
-        setHoveredItem(null)
-      }
     }
+    if (raf.current) return
+    last.current = performance.now()
+    raf.current = requestAnimationFrame(frame)
+  }, [frame, render])
 
-    // Add global touch handler
-    document.addEventListener('touchstart', handleTouchStart)
+  const aimAt = useCallback(
+    (index: number) => {
+      const el = itemRefs.current[index]
+      if (!el) return
+      x.current.target = el.offsetLeft
+      w.current.target = el.offsetWidth
+      if (!placed.current) {
+        x.current.pos = x.current.target
+        w.current.pos = w.current.target
+        placed.current = true
+        render()
+        pillRef.current?.style.setProperty('opacity', '1')
+        return
+      }
+      kick()
+    },
+    [kick, render, pillRef]
+  )
 
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    still.current = mq.matches
+    const onChange = () => (still.current = mq.matches)
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+
+  useEffect(() => {
+    let pending = 0
+    const update = () => {
+      pending = 0
+      setScrolled(window.scrollY > 24)
+      if (performance.now() < lockUntil.current || drag.current) return
+      const atBottom =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 4
+      if (atBottom) {
+        setActive(navItems.length - 1)
+        return
+      }
+      const line = window.innerHeight * 0.4
+      let current = 0
+      navItems.forEach((item, i) => {
+        const el = document.getElementById(item.id)
+        if (el && el.getBoundingClientRect().top <= line) current = i
+      })
+      setActive(current)
+    }
+    const onScroll = () => {
+      if (!pending) pending = requestAnimationFrame(update)
+    }
+    const onScrollEnd = () => {
+      lockUntil.current = 0
+      onScroll()
+    }
+    update()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('scrollend', onScrollEnd)
+    window.addEventListener('resize', onScroll)
     return () => {
-      document.removeEventListener('touchstart', handleTouchStart)
+      cancelAnimationFrame(pending)
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('scrollend', onScrollEnd)
+      window.removeEventListener('resize', onScroll)
     }
   }, [])
+
+  useLayoutEffect(() => {
+    if (!drag.current) aimAt(hover.current ?? active)
+  }, [active, aimAt])
+
+  useEffect(() => {
+    const ro = new ResizeObserver(() => {
+      if (!drag.current) aimAt(hover.current ?? active)
+    })
+    itemRefs.current.forEach((el) => el && ro.observe(el))
+    return () => ro.disconnect()
+  }, [active, aimAt])
+
+  useEffect(
+    () => () => {
+      cancelAnimationFrame(raf.current)
+      window.clearTimeout(settleTimer.current)
+    },
+    []
+  )
+
+  const nearest = (clientX: number) => {
+    let best = 0
+    let bestDist = Infinity
+    itemRefs.current.forEach((el, i) => {
+      if (!el) return
+      const r = el.getBoundingClientRect()
+      const d = Math.abs(clientX - (r.left + r.width / 2))
+      if (d < bestDist) {
+        bestDist = d
+        best = i
+      }
+    })
+    return best
+  }
+
+  const followPointer = (clientX: number) => {
+    const list = listRef.current
+    if (!list) return
+    const r = list.getBoundingClientRect()
+    const i = nearest(clientX)
+    const width = itemRefs.current[i]?.offsetWidth ?? w.current.target
+    w.current.target = width
+    x.current.target = Math.min(
+      Math.max(clientX - r.left - width / 2, 4),
+      r.width - width - 4
+    )
+    setUnderLens(i)
+    kick()
+  }
+
+  const go = (index: number) => {
+    lockUntil.current = performance.now() + 1200
+    window.clearTimeout(settleTimer.current)
+    if (!still.current) {
+      lift.current.target = LIFT
+      settleTimer.current = window.setTimeout(() => {
+        if (drag.current) return
+        lift.current.target = hover.current !== null ? HOVER_LIFT : 1
+        kick()
+      }, 240)
+    }
+    if (hover.current !== null) hover.current = index
+    activeRef.current = index
+    setActive(index)
+    aimAt(index)
+  }
+
+  const onPointerDown = (e: React.PointerEvent<HTMLUListElement>) => {
+    if (e.button !== 0) return
+    hover.current = null
+    drag.current = { id: e.pointerId, startX: e.clientX, moved: false }
+    lift.current.target = LIFT
+    setUnderLens(nearest(e.clientX))
+    kick()
+  }
+
+  const hoverAt = (clientX: number) => {
+    const list = listRef.current
+    const i = nearest(clientX)
+    const el = itemRefs.current[i]
+    if (!list || !el) return
+    const left = list.getBoundingClientRect().left
+    const centre = el.offsetLeft + el.offsetWidth / 2
+    const pointer = clientX - left
+    const pulled = centre + (pointer - centre) * HOVER_PULL
+    w.current.target = el.offsetWidth
+    x.current.target = pulled - el.offsetWidth / 2
+    if (!still.current) lift.current.target = HOVER_LIFT
+    if (i !== hover.current) {
+      hover.current = i
+      setUnderLens(i)
+    }
+    kick()
+  }
+
+  const onPointerMove = (e: React.PointerEvent<HTMLUListElement>) => {
+    const d = drag.current
+    if (!d && e.pointerType === 'mouse') {
+      hoverAt(e.clientX)
+      return
+    }
+    if (!d || d.id !== e.pointerId) return
+    if (!d.moved && Math.abs(e.clientX - d.startX) > DRAG_START) {
+      d.moved = true
+      e.currentTarget.setPointerCapture(e.pointerId)
+    }
+    if (d.moved) followPointer(e.clientX)
+  }
+
+  const release = (e: React.PointerEvent<HTMLUListElement>) => {
+    const d = drag.current
+    if (!d || d.id !== e.pointerId) return
+    drag.current = null
+    const r = listRef.current?.getBoundingClientRect()
+    const inside =
+      !!r &&
+      e.clientX >= r.left &&
+      e.clientX <= r.right &&
+      e.clientY >= r.top &&
+      e.clientY <= r.bottom
+    const hovering = e.pointerType === 'mouse' && inside
+    hover.current = hovering ? nearest(e.clientX) : null
+    lift.current.target = hovering && !still.current ? HOVER_LIFT : 1
+    setUnderLens(hovering ? hover.current : null)
+    if (d.moved) {
+      suppressClick.current = true
+      const index = nearest(e.clientX)
+      go(index)
+      const target = document.getElementById(navItems[index].id)
+      target?.scrollIntoView({
+        behavior: still.current ? 'auto' : 'smooth',
+      })
+      history.replaceState(null, '', `#${navItems[index].id}`)
+    } else {
+      kick()
+    }
+  }
 
   return (
-    <div className="nav">
-      <div className={navBackground}>
-        {navbarData.navigator.map((nav, index) => {
-          const Icon = Icons[nav.icon as keyof typeof Icons]
-          const isHovered = hoveredItem === index
-          const isActive =
-            activeSection === index ||
-            (clickedItem === index && clickedItem !== -1)
-          const showText = shouldShowText(index)
-          const showGlow = shouldShowGlow(index)
-
-          return (
-            <span
-              key={index}
-              ref={(el) => (navItemsRef.current[index] = el)}
-              onClick={() => handleItemClick(index)}
-              onTouchStart={() => {
-                // On mobile, immediately clear any previously active hover states
-                // This ensures we don't get stuck in a hover state on touch devices
-                if (hoveredItem !== null) {
-                  setHoveredItem(null)
-                }
-              }}
-              onMouseEnter={() => {
-                setHoveredItem(index)
-                updateSliderPosition(index)
-              }}
-              onMouseLeave={() => {
-                setHoveredItem(null)
-
-                // When leaving hover, show either clicked item or active section
-                const indexToShow = isManualNavRef.current
-                  ? clickedItem
-                  : activeSection
-                updateSliderPosition(indexToShow)
-              }}
-              className={`nav-links-item ${isActive ? 'active' : ''} ${
-                showGlow ? 'active-glow' : ''
-              }`}
-            >
-              <div className="nav-icon-text-wrapper">
-                <Icon
-                  className={`nav-icon ${showText ? 'hide' : ''} ${
-                    showGlow ? 'glow' : ''
-                  }`}
-                />
-                <span className={`nav-text ${showText ? 'show' : ''}`}>
-                  {nav.name}
-                </span>
-              </div>
-            </span>
-          )
-        })}
-
-        <div className="nav-slider" style={sliderStyle} />
-      </div>
-    </div>
+    <header className={`nav ${scrolled ? 'is-scrolled' : ''}`}>
+      <nav aria-label="Primary">
+        <ul
+          ref={listRef}
+          className="nav-list"
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={release}
+          onPointerCancel={release}
+          onPointerLeave={() => {
+            if (drag.current) return
+            hover.current = null
+            lift.current.target = 1
+            setUnderLens(null)
+            aimAt(activeRef.current)
+          }}
+          onClickCapture={(e) => {
+            if (suppressClick.current) {
+              e.preventDefault()
+              e.stopPropagation()
+              suppressClick.current = false
+            }
+          }}
+        >
+          <li
+            ref={barRef}
+            className="nav-bg glass"
+            data-lens
+            aria-hidden="true"
+          />
+          <li ref={pillRef} className="nav-pill" data-lens aria-hidden="true" />
+          {navItems.map((item, i) => {
+            const Icon = Icons[item.icon]
+            return (
+              <li key={item.id}>
+                <a
+                  ref={(el) => (itemRefs.current[i] = el)}
+                  href={`#${item.id}`}
+                  className={[
+                    'nav-link',
+                    active === i && 'is-active',
+                    underLens === i && 'is-under-lens',
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
+                  aria-current={active === i ? 'location' : undefined}
+                  draggable={false}
+                  onClick={() => go(i)}
+                >
+                  <Icon className="nav-icon" aria-hidden="true" />
+                  <span className="nav-label">{item.label}</span>
+                </a>
+              </li>
+            )
+          })}
+        </ul>
+        <a className="nav-os" href="/os" aria-label="Open JacobOS">
+          <Icons.Desktop aria-hidden="true" />
+          <span>JacobOS</span>
+        </a>
+      </nav>
+    </header>
   )
 }

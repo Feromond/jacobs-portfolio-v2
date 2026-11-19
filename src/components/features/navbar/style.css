@@ -1,270 +1,194 @@
 .nav {
   position: sticky;
-  top: 20px;
-  left: 0;
-  width: 100%;
+  top: 14px;
   z-index: 100;
   display: flex;
-  margin-top: 15px;
   justify-content: center;
+  padding: 0 12px;
+  margin-top: 14px;
+  pointer-events: none;
+}
+
+.nav nav {
+  display: flex;
   align-items: center;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.nav-os {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 45px;
+  padding: 0 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--pastel-ink);
+  background: var(--pastel-1);
+  transition: transform 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
+}
+
+.nav-os:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px -12px rgb(177 229 249 / 0.6);
+}
+
+.nav-os svg {
+  font-size: 16px;
+}
+
+.nav-list {
+  position: relative;
+  isolation: isolate;
+  touch-action: pan-y;
   user-select: none;
-  color: var(--color-light-gray);
-}
-.nav-links,
-.nav-links-filled {
+  -webkit-user-select: none;
   display: flex;
   align-items: center;
-  border-radius: 30px;
-  border: 1px solid transparent;
-  transition: all 0.2s ease;
-  position: relative;
+  gap: 2px;
   padding: 4px;
-  height: 46px;
-  contain: layout style;
+  list-style: none;
+  border-radius: 999px;
 }
 
-.nav-links-filled {
-  color: var(--color-white);
-  background: var(--color-navbar-background);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--color-navbar-border);
-  box-shadow: var(--color-navbar-shadow);
+.nav-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.97);
+  transition: opacity 0.4s var(--ease), transform 0.5s var(--ease-out);
 }
-.nav-links-filled .nav-links-item,
-.nav-links-filled .nav-links-item.contact {
-  color: var(--color-white);
+
+.nav.is-scrolled .nav-bg {
+  --glass-bg: rgb(22 24 29 / 0.55);
+  opacity: 1;
+  transform: none;
 }
-.nav-links-filled .nav-slider {
-  background: var(--color-navbar-border);
+
+.nav-pill {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  z-index: 0;
+  height: calc(100% - 8px);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.1);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.14);
+  opacity: 0;
+  pointer-events: none;
+  transform-origin: center;
+  will-change: transform, width;
+  transition: background-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
 }
-.nav-links-item {
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 13px;
+
+.nav-pill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    120% 100% at 28% 0%,
+    rgb(255 255 255 / 0.32),
+    transparent 55%
+  );
+  opacity: 0;
+  transition: opacity 0.25s var(--ease);
+}
+
+.nav-pill.is-lifted {
   z-index: 2;
-  padding: 8px 16px;
-  margin: 0 4px;
-  font-weight: 300;
+  background: rgb(255 255 255 / 0.05);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.5),
+    inset 0 -1px 0 rgb(0 0 0 / 0.25), 0 0 0 1px rgb(255 255 255 / 0.18),
+    0 6px 16px -8px rgb(0 0 0 / 0.55);
+  -webkit-backdrop-filter: saturate(1.6) brightness(1.08);
+  backdrop-filter: saturate(1.6) brightness(1.08);
+}
+
+.nav-pill.is-pressed {
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.55),
+    inset 0 -1px 0 rgb(0 0 0 / 0.25), 0 0 0 1px rgb(255 255 255 / 0.24),
+    0 14px 30px -10px rgb(0 0 0 / 0.7);
+}
+
+:root.lens .nav-pill.is-lifted[data-lens] {
+  -webkit-backdrop-filter: var(--lens-filter,) saturate(1.5) brightness(1.06);
+  backdrop-filter: var(--lens-filter,) saturate(1.5) brightness(1.06);
+}
+
+.nav-pill.is-lifted::after {
+  opacity: 1;
+}
+
+.nav-link {
   position: relative;
-  border-radius: 16px;
+  z-index: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-width: 36px;
-  width: auto;
   height: 36px;
+  padding: 0 16px;
+  border-radius: 980px;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+  color: var(--text-secondary);
+  transition: color 0.2s var(--ease);
 }
 
-/* New active glow class when another item is hovered */
-.nav-links-item.active-glow {
-  color: var(--color-white);
+.nav-link:hover,
+.nav-link.is-active,
+.nav-link.is-under-lens {
+  color: var(--text);
 }
 
-.nav-icon-text-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  min-width: 24px;
-  width: auto;
-  height: 24px;
+.nav-link {
+  transition: color 0.2s var(--ease), transform 0.3s var(--ease-out);
+}
+
+:root:not(.lens) .nav-link.is-under-lens {
+  transform: scale(1.14);
 }
 
 .nav-icon {
-  position: absolute;
-  font-size: 20px;
-  /* For mouse hover/normal interactions, keep animation */
-  transition: opacity 0.2s ease, transform 0.2s ease;
-  opacity: 1;
-  transform: scale(1);
-  will-change: opacity, transform;
+  display: none;
+  flex: none;
+  font-size: 18px;
 }
 
-/* When modified programmatically via classList, we want immediate changes without animation */
-.nav-icon.hide {
-  opacity: 0;
-  transform: scale(0);
-}
-
-/* Glow effect for the icon when it's the active section but another item is hovered */
-.nav-icon.glow {
-  filter: drop-shadow(0 0 8px var(--color-white)) brightness(1.5);
-  color: var(--color-white);
-  opacity: 1;
-  transform: scale(1.1);
-}
-
-.nav-text {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%) scale(0);
-  opacity: 0;
-  /* For mouse hover/normal interactions, keep animation */
-  transition: opacity 0.2s ease, transform 0.2s ease;
-  white-space: nowrap;
-  pointer-events: none;
-  font-size: 13px;
-  padding: 0 8px;
-  width: max-content;
-  will-change: opacity, transform;
-}
-
-/* When modified programmatically via classList, we want immediate changes */
-.nav-text.show {
-  transform: translateX(-50%) scale(1);
-  opacity: 1;
-}
-
-.nav-links-item.active {
-  color: var(--color-white);
-}
-.nav-links-item:hover {
-  cursor: pointer;
-  color: var(--color-white);
-}
-.nav-links-item.active,
-.nav-links-item.active:hover {
-  color: var(--color-white);
-  transition: all 0.2s ease;
-}
-.nav-slider {
-  position: absolute;
-  height: 36px;
-  background: var(--color-navbar-slider);
-  transition: left 0.25s ease, width 0.25s ease;
-  z-index: 1;
-  border-radius: 18px;
-  top: 4px;
-  will-change: transform, width, left;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
-.nav-slider.Home {
-  transform: translateX(5px);
-  width: 48px;
-}
-.nav-slider.About {
-  transform: translateX(61px);
-  width: 48px;
-}
-
-.nav-slider.Experience {
-  transform: translateX(117px);
-  width: 100px;
-}
-
-.nav-slider.Projects {
-  transform: translateX(210px);
-  width: 55px;
-}
-
-.nav-slider.Contact {
-  transform: translateX(273px);
-  width: 55px;
-}
-
-@media screen and (min-width: 385px) {
-  .nav-links,
-  .nav-links-filled {
-    height: 50px;
-  }
-
-  .nav-links-item {
-    padding: 8px 18px;
-    margin: 0 3px;
-    min-width: 40px;
-    height: 40px;
-    border-radius: 20px;
-  }
-
-  .nav-text {
-    font-size: 14px;
-    padding: 0 8px;
-  }
-
-  .nav-slider {
-    height: 40px;
-    border-radius: 20px;
-  }
-}
-
-@media screen and (min-width: 460px) {
-  .nav-links,
-  .nav-links-filled {
-    height: 54px;
-  }
-
-  .nav-links-item {
-    padding: 10px 20px;
-    min-width: 44px;
-    height: 44px;
-    border-radius: 22px;
-  }
-
-  .nav-text {
-    font-size: 14px;
-    padding: 0 10px;
-  }
-
-  .nav-slider {
-    height: 44px;
-    border-radius: 22px;
-  }
-}
-@media screen and (min-width: 690px) {
-  .nav-links,
-  .nav-links-filled {
-    height: 58px;
-  }
-
-  .nav-links-item {
-    padding: 12px 28px;
-    min-width: 48px;
-    height: 48px;
-    border-radius: 24px;
-  }
-
-  .nav-text {
-    font-size: calc(18 / 16 * 1rem);
+@media (max-width: 600px) {
+  .nav-link {
     padding: 0 12px;
   }
 
-  .nav-slider {
-    height: 48px;
-    border-radius: 24px;
+  .nav-os {
+    width: 45px;
+    padding: 0;
+    justify-content: center;
   }
-}
 
-/* Global class to freeze all animations in the entire document */
-.freeze-animations,
-.freeze-animations * {
-  transition: none !important;
-  animation: none !important;
-  -webkit-transition: none !important;
-  -moz-transition: none !important;
-  -o-transition: none !important;
-  -ms-transition: none !important;
-}
+  .nav-os span {
+    display: none;
+  }
 
-/* Class to completely disable ALL animations - applied during manual navigation */
-.no-animation,
-.no-animation * {
-  transition: none !important;
-  animation: none !important;
-  -webkit-transition: none !important;
-  -moz-transition: none !important;
-  -o-transition: none !important;
-  -ms-transition: none !important;
-  transform: none !important;
-  transition-property: none !important;
-  animation-name: none !important;
-  transform-style: flat !important;
-}
+  .nav-icon {
+    display: block;
+  }
 
-/* IMPORTANT: Override transform for the nav-slider only */
-.no-animation .nav-slider {
-  transform: translateZ(0) !important;
-  transition: none !important;
+  .nav-label {
+    max-width: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-width 0.4s var(--ease-out), opacity 0.2s,
+      margin 0.4s var(--ease-out);
+  }
+
+  .nav-link.is-active .nav-label {
+    max-width: 90px;
+    margin-left: 7px;
+    opacity: 1;
+  }
 }

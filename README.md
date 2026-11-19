@@ -1,105 +1,40 @@
-# Jacob's Portfolio Website
+# Jacob Mish’s portfolio
 
 [![Site Status](https://img.shields.io/website?url=https%3A%2F%2Fjacobmish.com&up_message=live&up_color=brightgreen&down_message=down&down_color=red&label=site&logo=cloudflare)](https://jacobmish.com)
 
-## Description
+I built this portfolio with React, TypeScript, Vite, and plain CSS. Browse my projects, experience, and research, or try [JacobOS](https://jacobmish.com/os). On the desktop, click the seismic wallpaper to start a quake or type `help` in the terminal.
 
-A modern, responsive portfolio website built with React, TypeScript, and Vite. This website showcases my projects, experience, and skills as a developer.
+## Run locally
 
-## Features
+You’ll need Node.js and pnpm. On macOS, you can get pnpm with `brew install pnpm`.
 
-- **Home**: Introduction and welcome section
-- **About**: Personal bio and background information
-- **Experience**: Professional work history and skills
-- **Projects**: Showcase of past and current projects
-- **Publications**: List of published works
-- **Contact**: Ways to get in touch
-- **Responsive Design**: Optimized for all device sizes
-
-## Technologies Used
-
-- React 18
-- TypeScript
-- Vite
-- Framer Motion (for animations)
-- React Icons
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js (latest stable version recommended)
-- [pnpm](https://pnpm.io/) (used for dependency management for better safety and performance)
-
-If you don't have pnpm installed, you can install it with Homebrew:
-
-```bash
-brew install pnpm
-```
-
-### Installation
-
-1. Clone the repository
-
-```bash
+```sh
 git clone https://github.com/feromond/jacobs-portfolio-v2.git
 cd jacobs-portfolio-v2
-```
-
-2. Install dependencies
-
-```bash
 pnpm install
-```
-
-3. Start the development server
-
-```bash
 pnpm dev
 ```
 
-### Building for Production
+To preview a production build, run `pnpm build` then `pnpm preview`. The build goes in `dist/`. Cloudflare Workers deploys from `main`.
 
-```bash
-pnpm build
-```
+## Update the portfolio
 
-### Preview Production Build
+The site and JacobOS share [src/library/data.ts](src/library/data.ts).
 
-```bash
-pnpm preview
-```
+- Add jobs to `experienceEntries`. Use `YYYY-MM` dates and `to: null` for a current role. The timeline handles sorting and durations.
+- Add app tours to `featuredProjects`. The first gets the largest tile. Choose `fern` or `ledger` for its colour palette.
+- Add other projects to `projects` with a year and category. Set `ventra: true` to include one on the Ventra Software card. Put older work in `archivedProjects`.
+- Add papers and talks to `publicationEntries` and edit `skillGroups` for the toolkit.
+- Import WebP images from `src/assets/img/` in `data.ts`. To update the résumé, replace `src/assets/Jacob_Mish_Resume.pdf`.
 
-## Deployment
+## Design history
 
-This website is deployed on Cloudflare Workers (Static Assets) with continuous deployment from the main branch.
+[See earlier designs and run the 2024 version locally.](docs/design-history/README.md)
 
-## Project Structure
+## Contact
 
-```
-jacobs-portfolio-v2/
-├── public/             # Static assets and favicon
-├── src/
-│   ├── assets/         # Images and other assets
-│   ├── components/     # React components
-│   │   ├── core/       # Core UI components
-│   │   └── features/   # Feature components (navbar, home, about, etc.)
-│   ├── library/        # Utility functions and helpers
-│   ├── App.tsx         # Main application component
-│   ├── global.css      # Global styles
-│   └── main.tsx        # Application entry point
-├── index.html          # HTML template
-└── package.json        # Project dependencies and scripts
-```
+[Email Jacob](mailto:jacobpmish@gmail.com) · [LinkedIn](https://www.linkedin.com/in/jacob-mish/)
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Author
-
-Jacob Mish
-
-- 🌐 Portfolio: [jacobmish.com](https://jacobmish.com)
-- 📧 Email: [jacobpmish@gmail.com](mailto:jacobpmish@gmail.com)
-- 💼 LinkedIn: [Jacob Mish](https://www.linkedin.com/in/jacob-mish/)
+[MIT](LICENSE)

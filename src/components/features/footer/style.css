@@ -1,7 +1,20 @@
 .footer {
   display: flex;
-  font-size: 0.7rem;
-  letter-spacing: 1px;
-  text-transform: capitalize;
-  color: var(--color-light-gray);
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  margin-top: calc(clamp(96px, 12vw, 148px) * -0.5);
+  padding: 20px 0 40px;
+  font-size: 12px;
+  letter-spacing: -0.01em;
+  color: var(--text-tertiary);
+  border-top: 1px solid var(--hairline);
+}
+
+.footer a {
+  color: var(--text-secondary);
+}
+
+.footer a:hover {
+  text-decoration: underline;
 }

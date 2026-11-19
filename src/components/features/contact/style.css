@@ -1,53 +1,50 @@
+.contact-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(56px, 9vw, 104px) var(--gutter);
+  border-radius: var(--radius-lg);
+  background: radial-gradient(
+      60% 80% at 15% 0%,
+      rgb(121 251 206 / 0.12),
+      transparent 70%
+    ),
+    radial-gradient(60% 80% at 85% 100%, rgb(195 177 255 / 0.14), transparent 70%),
+    radial-gradient(50% 60% at 90% 0%, rgb(255 181 154 / 0.1), transparent 70%),
+    var(--card);
+  text-align: center;
+}
+
+.contact h2 {
+  font-size: clamp(40px, 7vw, 72px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
 .contact-text {
-  line-height: 1.8;
-  max-width: 800px;
-  font-size: calc(18 / 16 * 1rem);
-  color: var(--color-light-gray);
+  max-width: 34ch;
+  margin-top: 16px;
+  font-size: clamp(19px, 2.2vw, 24px);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  color: var(--text-secondary);
+  text-wrap: balance;
 }
 
-.contact-text a {
-  font-weight: 600;
-  font-size: calc(18 / 16 * 1rem);
-  margin: 0 1px 0 3px;
-  padding: 0 0px 0 5px;
-  position: relative;
-  display: inline-block;
-  color: var(--color-white);
-  transition: all 0.2s ease;
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 32px;
 }
 
-.contact-text a:after {
-  content: '';
-  display: block;
-  width: 95%;
-  height: 4px;
-  background-color: var(--color-green);
-  position: absolute;
-  opacity: 0.6;
-  bottom: 20%;
-  z-index: -1;
-  transition: all 0.2s ease;
-  border-radius: 1px;
-}
-
-.contact-text a:hover {
-  color: var(--color-obstian);
-}
-
-.contact-text a:hover::after {
-  height: 20px;
-  opacity: 1;
-}
-
-@media screen and (max-width: 745px) {
-  .contact-text {
-    line-height: 1.5;
-    font-size: 1rem;
-  }
-
-  .contact-text a {
-    padding: 0;
-    line-height: 1.5;
-    font-size: 1rem;
-  }
+.contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 28px;
+  margin-top: 24px;
 }
